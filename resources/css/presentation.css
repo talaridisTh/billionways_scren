@@ -1,0 +1,43 @@
+.bg-grid-pattern {
+  background-color: #ffffff;
+  background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(to right, #e5e7eb 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.screen-frame {
+  width: 375px;
+  height: 667px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.screen-thumbnail {
+  width: 120px;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.screen-thumbnail:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.screen-thumbnail.active {
+  border: 2px solid #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.zoom-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
