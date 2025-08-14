@@ -167,7 +167,6 @@ export const categoryData: Record<string, CategoryData> = {
             createSubcategory('Cafés', workingImageIds.cafes, 0),
             createSubcategory('Bars', workingImageIds.bars, 0),
             createSubcategory('Bakeries', workingImageIds.bakeries, 0),
-            createSubcategory('Food Trucks', workingImageIds.foodTrucks, 0),
             createSubcategory('Desserts', workingImageIds.desserts, 0)
         ],
         stores: {
@@ -249,7 +248,6 @@ export const categoryData: Record<string, CategoryData> = {
         subcategories: [
             createSubcategory('Electricians', workingImageIds.electricians, 0),
             createSubcategory('Tech Repair', workingImageIds.techRepair, 0),
-            createSubcategory('Home Automation', workingImageIds.homeAutomation, 0),
             createSubcategory('Electronics Store', workingImageIds.electronicsStore, 0),
             createSubcategory('Solar Panels', workingImageIds.solarPanels, 0)
         ],
@@ -283,7 +281,6 @@ export const categoryData: Record<string, CategoryData> = {
     Restaurants: {
         subcategories: [
             createSubcategory('Fine Dining', workingImageIds.fineDining, 0),
-            createSubcategory('Fast Food', workingImageIds.fastFood, 0),
             createSubcategory('Ethnic Cuisine', workingImageIds.ethnicCuisine, 0),
             createSubcategory('Pizza Places', workingImageIds.pizzaPlaces, 0),
             createSubcategory('Seafood', workingImageIds.seafood, 0)
