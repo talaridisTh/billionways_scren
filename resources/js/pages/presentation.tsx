@@ -968,7 +968,6 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
                                     <i className="fas fa-chevron-down text-xs"></i>
                                 </div>
                             </div>
-                            <button className={`${getAccentClass()} text-sm font-medium`}>All</button>
                         </div>
                     </div>
 
