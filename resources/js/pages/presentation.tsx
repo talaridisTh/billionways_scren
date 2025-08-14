@@ -984,7 +984,7 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
                     </div>
 
                     <div className="mb-4 flex items-center justify-between">
-                        <h3 className={`${getTextClass('primary')} text-lg font-semibold`}>Παραγγείλετε από 240 συνεργάτες</h3>
+                        <h3 className={`${getTextClass('primary')} text-lg font-semibold`}>Προσφορές από 240 συνεργάτες</h3>
                         <button className={`${getAccentClass()} text-sm font-medium`}>Όλα</button>
                     </div>
 
