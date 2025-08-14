@@ -1044,22 +1044,19 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
                                         </button>
                                     </div>
                                     <p className={`${getTextClass('tertiary')} mt-1 text-xs`}>{store.type}</p>
-                                    <div className="mt-2 flex items-center">
+                                    <div className="mt-2 flex items-center justify-between">
                                         <div className="flex items-center">
                                             <i className={`fas fa-star ${colors.star} mr-1 text-xs`}></i>
                                             <span className={`${getTextClass('secondary')} text-xs`}>
                                                 {store.rating} ({store.reviews})
                                             </span>
                                         </div>
-                                        <span className={`${getTextClass('tertiary')} mx-2 text-xs`}>•</span>
+                                        <span className={`${getTextClass('tertiary')} mx-1 text-xs`}>•</span>
                                         <span className={`${getTextClass('tertiary')} text-xs`}>{store.time}</span>
-                                        <span className={`${getTextClass('tertiary')} mx-2 text-xs`}>•</span>
+                                        <span className={`${getTextClass('tertiary')} mx-1 text-xs`}>•</span>
                                         <span className={`${getTextClass('tertiary')} text-xs`}>{store.distance}</span>
-                                        <span className={`${getTextClass('tertiary')} mx-2 text-xs`}>•</span>
-                                        <span className={`${getTextClass('secondary')} text-xs`}>
-                                            <i className="far fa-clock mr-1"></i>
-                                            Open until {store.openUntil}
-                                        </span>
+                                        <span className={`${getTextClass('tertiary')} mx-1 text-xs`}>•</span>
+                                        <span className={`${getTextClass('secondary')} text-xs`}>Open until {store.openUntil}</span>
                                     </div>
                                 </div>
                             </div>
