@@ -763,18 +763,6 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
             )}
             <div className={`relative mx-auto min-h-screen max-w-sm pb-20 shadow-lg`}>
                 <div className={`${getCardBgClass()} p-4`}>
-                    <div className="mb-4 flex items-center justify-between">
-                        <button className={`${getTextClass('tertiary')} hover:${getTextClass('primary')}`}>
-                            <i className="fas fa-arrow-left text-xl"></i>
-                        </button>
-                        <div className="text-center">
-                            <div className={`${getTextClass('tertiary')} text-xs`}>Now - Near You</div>
-                        </div>
-                        <button className={`${getTextClass('tertiary')} hover:${getTextClass('primary')}`}>
-                            <i className="fas fa-ellipsis-vertical text-xl"></i>
-                        </button>
-                    </div>
-
                     <div className="relative">
                         <input
                             type="text"
