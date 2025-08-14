@@ -918,6 +918,49 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
                         </div>
                     )}
 
+                    {layout !== 'list' && layout !== 'timeline' && (
+                        <div className="mb-6">
+                            <h3 className={`${getTextClass('primary')} mb-3 text-lg font-semibold`}>Discover what you like</h3>
+                            <div className="flex space-x-3 overflow-x-auto pb-2">
+                                {discoveryItems.map((item, index) => (
+                                    <div key={index} className="flex-shrink-0">
+                                        <div
+                                            className={`relative mb-2 flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl ${
+                                                background === 'neon' ? 'border border-purple-500/30 shadow-lg shadow-purple-500/20' : 'shadow-md'
+                                            }`}
+                                        >
+                                            <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+                                            <div
+                                                className={`absolute inset-0 ${
+                                                    background === 'neon'
+                                                        ? index === 0
+                                                            ? 'bg-purple-500/20'
+                                                            : index === 1
+                                                              ? 'bg-cyan-500/20'
+                                                              : index === 2
+                                                                ? 'bg-pink-500/20'
+                                                                : index === 3
+                                                                  ? 'bg-yellow-500/20'
+                                                                  : 'bg-blue-500/20'
+                                                        : index === 0
+                                                          ? 'bg-orange-500/30'
+                                                          : index === 1
+                                                            ? 'bg-purple-500/30'
+                                                            : index === 2
+                                                              ? 'bg-pink-500/30'
+                                                              : index === 3
+                                                                ? 'bg-gray-600/30'
+                                                                : 'bg-blue-500/30'
+                                                }`}
+                                            ></div>
+                                        </div>
+                                        <span className={`${getTextClass('secondary')} block text-center text-xs`}>{item.name}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
                     <div className="mb-4 flex items-center justify-between">
                         <h3 className={`${getTextClass('primary')} text-lg font-semibold`}>Offers from 240 partners</h3>
                         <div className="flex items-center">
