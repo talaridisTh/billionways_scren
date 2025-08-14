@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 type ThemeClasses = {
     primary: string;
@@ -220,13 +220,13 @@ const PresentationView = () => {
                 setSidebarOpen(true);
             }
         };
-        
+
         // Initial check
         checkIfMobile();
-        
+
         // Add event listener for window resize
         window.addEventListener('resize', checkIfMobile);
-        
+
         // Cleanup
         return () => window.removeEventListener('resize', checkIfMobile);
     }, []);
@@ -362,7 +362,9 @@ const PresentationView = () => {
                 </div>
 
                 <div className="relative flex flex-1 overflow-hidden">
-                    {sidebarOpen && isMobile && <div className="bg-opacity-50 fixed inset-0 z-40 bg-black lg:hidden" onClick={() => setSidebarOpen(false)}></div>}
+                    {sidebarOpen && isMobile && (
+                        <div className="bg-opacity-50 fixed inset-0 z-40 bg-black lg:hidden" onClick={() => setSidebarOpen(false)}></div>
+                    )}
 
                     <div
                         className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed top-0 left-0 z-50 h-full w-80 overflow-hidden border-r bg-white shadow-lg transition-transform duration-300 md:w-72 lg:relative lg:z-auto ${isMobile ? '' : 'lg:translate-x-0'}`}
@@ -965,19 +967,19 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
                             onClick={() => setSelectedFilter('offers')}
                         >
                             <i className="fas fa-tag text-xs"></i>
-                            <span>Προσφορές</span>
+                            <span>15% Προσφορές</span>
                         </button>
                         <button
                             className={`${getButtonBgClass(selectedFilter === 'delivery')} rounded-full px-4 py-2 text-sm whitespace-nowrap transition-all`}
                             onClick={() => setSelectedFilter('delivery')}
                         >
-                            Δωρεάν Παράδοση
+                            20% Προσφορές
                         </button>
                         <button
                             className={`${getButtonBgClass(selectedFilter === 'credit')} rounded-full px-4 py-2 text-sm whitespace-nowrap transition-all`}
                             onClick={() => setSelectedFilter('credit')}
                         >
-                            Κάρτα Πιστότητας
+                            10% Προσφορές
                         </button>
                     </div>
 
