@@ -587,7 +587,10 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
     const categories = [
         { name: 'Gastronomy', image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
         { name: 'Cosmetics', image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
-        { name: 'Electrical/Craftsmen', image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
+        {
+            name: 'Electrical',
+            image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
+        },
         { name: 'Restaurants', image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
     ];
 
@@ -599,7 +602,10 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
         { name: 'Cafés', image: 'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
         { name: 'Bars', image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
         { name: 'Hair Salons', image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
-        { name: 'Nail Studios', image: 'https://images.unsplash.com/photo-1604654894611-6973b376cbde?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' },
+        {
+            name: 'Nail Studios',
+            image: 'https://images.unsplash.com/photo-1604654894611-6973b376cbde?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
+        },
     ];
 
     const stores = [
@@ -613,6 +619,7 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
             distance: '200m',
             tag: '10% Discount',
             tagColor: colors.primaryDark,
+            openUntil: '22:00',
         },
         {
             name: 'Stylish Hair Salon',
@@ -624,6 +631,7 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
             distance: '350m',
             tag: '20% Discount',
             tagColor: 'green-600',
+            openUntil: '20:00',
         },
         {
             name: 'Café Specialty',
@@ -635,10 +643,11 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
             distance: '150m',
             tag: '20% Discount',
             tagColor: 'yellow-600',
+            openUntil: '23:00',
         },
         {
             name: 'Expert Electricians',
-            image: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+            image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
             rating: '4.2',
             reviews: '127',
             type: 'Electrical/Craftsmen, Electrician',
@@ -646,6 +655,7 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
             distance: '500m',
             tag: '15% Discount',
             tagColor: 'blue-600',
+            openUntil: '18:00',
         },
     ];
 
@@ -920,48 +930,25 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
                         </div>
                     )}
 
-                    {layout !== 'list' && layout !== 'timeline' && (
-                        <div className="mb-6">
-                            <h3 className={`${getTextClass('primary')} mb-3 text-lg font-semibold`}>Discover what you like</h3>
-                            <div className="flex space-x-3 overflow-x-auto pb-2">
-                                {discoveryItems.map((item, index) => (
-                                    <div key={index} className="flex-shrink-0">
-                                        <div
-                                            className={`relative mb-2 flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl ${
-                                                background === 'neon' ? 'border border-purple-500/30 shadow-lg shadow-purple-500/20' : 'shadow-md'
-                                            }`}
-                                        >
-                                            <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
-                                            <div
-                                                className={`absolute inset-0 ${
-                                                    background === 'neon'
-                                                        ? index === 0
-                                                            ? 'bg-purple-500/20'
-                                                            : index === 1
-                                                              ? 'bg-cyan-500/20'
-                                                              : index === 2
-                                                                ? 'bg-pink-500/20'
-                                                                : index === 3
-                                                                  ? 'bg-yellow-500/20'
-                                                                  : 'bg-blue-500/20'
-                                                        : index === 0
-                                                          ? 'bg-orange-500/30'
-                                                          : index === 1
-                                                            ? 'bg-purple-500/30'
-                                                            : index === 2
-                                                              ? 'bg-pink-500/30'
-                                                              : index === 3
-                                                                ? 'bg-gray-600/30'
-                                                                : 'bg-blue-500/30'
-                                                }`}
-                                            ></div>
-                                        </div>
-                                        <span className={`${getTextClass('secondary')} block text-center text-xs`}>{item.name}</span>
-                                    </div>
-                                ))}
+                    <div className="mb-4 flex items-center justify-between">
+                        <h3 className={`${getTextClass('primary')} text-lg font-semibold`}>Offers from 240 partners</h3>
+                        <div className="flex items-center">
+                            <div className="relative mr-2">
+                                <select
+                                    className={`appearance-none rounded-lg border-0 bg-transparent py-1 pr-8 pl-2 text-sm ${getAccentClass()} focus:outline-none`}
+                                >
+                                    <option value="relevance">Sort by</option>
+                                    <option value="distance">Distance</option>
+                                    <option value="rating">Rating</option>
+                                    <option value="discount">Discount</option>
+                                </select>
+                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
+                                    <i className="fas fa-chevron-down text-xs"></i>
+                                </div>
                             </div>
+                            <button className={`${getAccentClass()} text-sm font-medium`}>All</button>
                         </div>
-                    )}
+                    </div>
 
                     <div className="mb-4 flex space-x-2 overflow-x-auto pb-2">
                         <button
@@ -969,25 +956,29 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
                             onClick={() => setSelectedFilter('offers')}
                         >
                             <i className="fas fa-tag text-xs"></i>
-                            <span>15% Offers</span>
+                            <span>All Discounts</span>
                         </button>
                         <button
-                            className={`${getButtonBgClass(selectedFilter === 'delivery')} rounded-full px-4 py-2 text-sm whitespace-nowrap transition-all`}
-                            onClick={() => setSelectedFilter('delivery')}
+                            className={`${getButtonBgClass(selectedFilter === 'discount20')} flex items-center space-x-2 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap transition-all`}
+                            onClick={() => setSelectedFilter('discount20')}
                         >
-                            20% Offers
+                            <i className="fas fa-percent text-xs"></i>
+                            <span>20% Discount</span>
                         </button>
                         <button
-                            className={`${getButtonBgClass(selectedFilter === 'credit')} rounded-full px-4 py-2 text-sm whitespace-nowrap transition-all`}
-                            onClick={() => setSelectedFilter('credit')}
+                            className={`${getButtonBgClass(selectedFilter === 'discount15')} flex items-center space-x-2 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap transition-all`}
+                            onClick={() => setSelectedFilter('discount15')}
                         >
-                            10% Offers
+                            <i className="fas fa-percent text-xs"></i>
+                            <span>15% Discount</span>
                         </button>
-                    </div>
-
-                    <div className="mb-4 flex items-center justify-between">
-                        <h3 className={`${getTextClass('primary')} text-lg font-semibold`}>Offers from 240 partners</h3>
-                        <button className={`${getAccentClass()} text-sm font-medium`}>All</button>
+                        <button
+                            className={`${getButtonBgClass(selectedFilter === 'discount10')} flex items-center space-x-2 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap transition-all`}
+                            onClick={() => setSelectedFilter('discount10')}
+                        >
+                            <i className="fas fa-percent text-xs"></i>
+                            <span>10% Discount</span>
+                        </button>
                     </div>
 
                     <div className="space-y-4">
@@ -1025,8 +1016,9 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
                                 <div className="p-4">
                                     <div className="flex items-center justify-between">
                                         <h4 className={`${getTextClass('primary')} font-medium`}>{store.name}</h4>
-                                        <button className={`${colors.primary} rounded-full p-2 text-white`}>
-                                            <i className="fas fa-directions"></i>
+                                        <button className={`${colors.primary} rounded-lg px-3 py-1.5 text-xs text-white`}>
+                                            <i className="fas fa-directions mr-1"></i>
+                                            Get Directions
                                         </button>
                                     </div>
                                     <p className={`${getTextClass('tertiary')} mt-1 text-xs`}>{store.type}</p>
@@ -1041,6 +1033,11 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
                                         <span className={`${getTextClass('tertiary')} text-xs`}>{store.time}</span>
                                         <span className={`${getTextClass('tertiary')} mx-2 text-xs`}>•</span>
                                         <span className={`${getTextClass('tertiary')} text-xs`}>{store.distance}</span>
+                                        <span className={`${getTextClass('tertiary')} mx-2 text-xs`}>•</span>
+                                        <span className={`${getTextClass('secondary')} text-xs`}>
+                                            <i className="far fa-clock mr-1"></i>
+                                            Open until {store.openUntil}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -1056,18 +1053,19 @@ const BillionwaysHomeScreen = ({ theme, layout, background }: ScreenProps) => {
                         </button>
                         <button className="flex flex-col items-center justify-center">
                             <i className={`fas fa-receipt text-lg ${getTextClass('tertiary')}`}></i>
-                            <span className={`mt-1 text-xs ${getTextClass('secondary')}`}>Bills</span>
+                            <span className={`mt-1 text-xs ${getTextClass('secondary')}`}>My Bills</span>
                         </button>
                         <button className={`flex h-12 w-12 items-center justify-center rounded-full ${colors.primary} mx-auto -mt-5 shadow-lg`}>
                             <i className="fas fa-qrcode text-lg text-white"></i>
+                            <span className="sr-only">QR Code</span>
                         </button>
                         <button className="flex flex-col items-center justify-center">
                             <i className={`fas fa-chart-line text-lg ${getTextClass('tertiary')}`}></i>
-                            <span className={`mt-1 text-xs ${getTextClass('secondary')}`}>Investment</span>
+                            <span className={`mt-1 text-xs ${getTextClass('secondary')}`}>Invest</span>
                         </button>
                         <button className="flex flex-col items-center justify-center">
                             <i className={`fas fa-user text-lg ${getTextClass('tertiary')}`}></i>
-                            <span className={`mt-1 text-xs ${getTextClass('secondary')}`}>Profile</span>
+                            <span className={`mt-1 text-xs ${getTextClass('secondary')}`}>Account</span>
                         </button>
                     </div>
                 </div>
