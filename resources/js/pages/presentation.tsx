@@ -561,15 +561,6 @@ const PresentationView = () => {
                             <div
                                 className={`overflow-hidden rounded-xl shadow-2xl ${currentBackground === 'glass' ? 'glass-effect' : currentBackground === 'neon' ? 'border border-purple-500/50 shadow-2xl shadow-purple-500/30' : 'bg-white'}`}
                             >
-                                <div className="flex items-center space-x-1 bg-gray-800 p-2">
-                                    <div className="h-3 w-3 rounded-full bg-red-500"></div>
-                                    <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
-                                    <div className="h-3 w-3 rounded-full bg-green-500"></div>
-                                    <div className="mx-auto flex items-center space-x-2 text-xs text-white">
-                                        <i className={`fas ${currentScreen.icon} text-xs`}></i>
-                                        <span>{currentScreen.name}</span>
-                                    </div>
-                                </div>
                                 <CurrentComponent theme={currentTheme} layout={currentLayout} background={currentBackground} />
                             </div>
                         </div>
