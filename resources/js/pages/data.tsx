@@ -195,12 +195,7 @@ export const categoryData: Record<string, CategoryData> = {
                 createStore('Golden Crust Bakery', workingImageIds.bakeries, 2, '4.4', '156', 'Gastronomy, Traditional Bakery', '10-16 min', '180m', '22% Discount', '20:00'),
                 createStore('Morning Glory Bakehouse', workingImageIds.bakeries, 3, '4.7', '203', 'Gastronomy, French Bakery', '14-20 min', '260m', '28% Discount', '19:30')
             ],
-            'Food Trucks': [
-                createStore('Gourmet Street Food', workingImageIds.foodTrucks, 0, '4.4', '67', 'Gastronomy, Food Truck', '5-10 min', '80m', '18% Discount', '22:00'),
-                createStore('Urban Eats Truck', workingImageIds.foodTrucks, 1, '4.2', '89', 'Gastronomy, Mobile Kitchen', '3-8 min', '60m', '15% Discount', '21:00'),
-                createStore('Fusion Street Kitchen', workingImageIds.foodTrucks, 2, '4.5', '124', 'Gastronomy, Fusion Food Truck', '7-12 min', '95m', '20% Discount', '23:00'),
-                createStore('Artisan Food Wagon', workingImageIds.foodTrucks, 3, '4.6', '78', 'Gastronomy, Artisan Food Truck', '8-15 min', '110m', '25% Discount', '22:30')
-            ],
+
             Desserts: [
                 createStore('Sweet Dreams', workingImageIds.desserts, 0, '4.9', '145', 'Gastronomy, Dessert Shop', '10-15 min', '180m', '22% Discount', '21:00'),
                 createStore('Chocolate Heaven', workingImageIds.desserts, 1, '4.7', '189', 'Gastronomy, Chocolate Shop', '12-18 min', '240m', '30% Discount', '20:30'),
@@ -271,12 +266,6 @@ export const categoryData: Record<string, CategoryData> = {
                 createStore('Computer Solutions Hub', workingImageIds.techRepair, 2, '4.7', '203', 'Electrical, Computer Repair', '20-35 min', '420m', '15% Discount', '18:30'),
                 createStore('Electronic Repair Pro', workingImageIds.techRepair, 3, '4.5', '178', 'Electrical, Electronics Repair', '25-40 min', '550m', '22% Discount', '19:30')
             ],
-            'Home Automation': [
-                createStore('Smart Home Solutions', workingImageIds.homeAutomation, 0, '4.6', '156', 'Electrical, Home Automation', '30-45 min', '750m', '10% Discount', '17:00'),
-                createStore('Future Home Tech', workingImageIds.homeAutomation, 1, '4.8', '189', 'Electrical, Smart Technology', '35-50 min', '820m', '15% Discount', '18:00'),
-                createStore('Automated Living Systems', workingImageIds.homeAutomation, 2, '4.7', '234', 'Electrical, Living Automation', '40-60 min', '900m', '12% Discount', '16:30'),
-                createStore('IoT Integration Experts', workingImageIds.homeAutomation, 3, '4.5', '167', 'Electrical, IoT Solutions', '25-40 min', '680m', '18% Discount', '17:30')
-            ],
             'Electronics Store': [
                 createStore('ElectroMart Store', workingImageIds.electronicsStore, 0, '4.3', '234', 'Electrical, Electronics Retail', '10-20 min', '400m', '25% Discount', '21:00'),
                 createStore('TechWorld Electronics', workingImageIds.electronicsStore, 1, '4.5', '189', 'Electrical, Tech Retail', '12-22 min', '350m', '20% Discount', '20:30'),
@@ -306,12 +295,7 @@ export const categoryData: Record<string, CategoryData> = {
                 createStore('Elegant Gourmet', workingImageIds.fineDining, 2, '4.6', '156', 'Restaurant, Gourmet', '20-30 min', '420m', '12% Discount', '22:30'),
                 createStore('Premium Culinary Experience', workingImageIds.fineDining, 3, '4.8', '234', 'Restaurant, Premium Dining', '30-40 min', '580m', '15% Discount', '23:30')
             ],
-            'Fast Food': [
-                createStore('Quick Bites', workingImageIds.fastFood, 0, '4.0', '234', 'Restaurant, Fast Food', '5-10 min', '120m', '25% Discount', '24:00'),
-                createStore('Speed Burger', workingImageIds.fastFood, 1, '4.2', '189', 'Restaurant, Burger Joint', '3-8 min', '80m', '30% Discount', '01:00'),
-                createStore('Express Grill', workingImageIds.fastFood, 2, '4.3', '156', 'Restaurant, Grill Express', '7-12 min', '150m', '22% Discount', '23:30'),
-                createStore('Fast & Fresh', workingImageIds.fastFood, 3, '4.4', '203', 'Restaurant, Fresh Fast Food', '8-15 min', '200m', '20% Discount', '22:00')
-            ],
+
             'Ethnic Cuisine': [
                 createStore("Mama's Italian", workingImageIds.ethnicCuisine, 0, '4.7', '234', 'Restaurant, Italian Cuisine', '20-30 min', '450m', '15% Discount', '23:00'),
                 createStore('Dragon Palace Chinese', workingImageIds.ethnicCuisine, 1, '4.5', '189', 'Restaurant, Chinese Cuisine', '18-28 min', '380m', '20% Discount', '22:30'),
