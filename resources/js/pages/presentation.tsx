@@ -49,11 +49,14 @@ const PresentationView = () => {
 
     const layouts: Record<LayoutType, { name: string; icon: string }> = {
         grid: { name: 'Grid', icon: 'fa-th' },
+        compact: { name: 'Compact', icon: 'fa-compress' },
+        dense: { name: 'Dense Grid', icon: 'fa-grip' },
+        minimal: { name: 'Minimal', icon: 'fa-circle' },
+        circular: { name: 'Circular', icon: 'fa-dot-circle' },
+        staggered: { name: 'Staggered', icon: 'fa-layer-group' },
         cards: { name: 'Cards', icon: 'fa-id-card' },
         list: { name: 'List', icon: 'fa-list' },
         masonry: { name: 'Masonry', icon: 'fa-th-large' },
-        compact: { name: 'Compact', icon: 'fa-compress' },
-        timeline: { name: 'Timeline', icon: 'fa-stream' },
         magazine: { name: 'Magazine', icon: 'fa-newspaper' },
     };
 

@@ -15,7 +15,20 @@ export type ThemeClasses = {
 };
 
 export type ThemeType = 'orange' | 'blue' | 'purple' | 'green' | 'rose' | 'teal' | 'amber' | 'indigo' | 'slate' | 'crimson';
-export type LayoutType = 'grid' | 'cards' | 'list' | 'masonry' | 'compact' | 'timeline' | 'magazine';
+export type LayoutType =
+    | 'grid'
+    | 'cards'
+    | 'list'
+    | 'masonry'
+    | 'compact'
+    | 'timeline'
+    | 'magazine'
+    | 'dense'
+    | 'minimal'
+    | 'flex'
+    | 'circular'
+    | 'hexagon'
+    | 'staggered';
 export type BackgroundType = 'dark' | 'light' | 'gradient' | 'mesh' | 'dots' | 'glass' | 'neon';
 
 export const themes: Record<ThemeType, ThemeClasses> = {

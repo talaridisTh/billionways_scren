@@ -27,8 +27,8 @@ export interface CategoryItemProps {
 }
 
 export interface CategoryLayoutProps {
-    categories: { name: string; image: string }[];
+    categories: { name: string; image: string; alternatives?: string[] }[];
     selectedItem: string | null;
-    onItemClick: (name: string) => void;
+    onItemClick: (itemName: string) => void;
     styleHelpers: StyleHelpers;
 }
