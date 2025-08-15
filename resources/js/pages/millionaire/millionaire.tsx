@@ -1,4 +1,4 @@
-import { CheckCircle, Gift, Phone, Scissors, Trophy, Users, XCircle } from 'lucide-react';
+import { CheckCircle, Gift, Phone, Play, Scissors, Star, Trophy, Users, XCircle } from 'lucide-react';
 import { useState } from 'react';
 
 const questionsData = [
@@ -139,18 +139,84 @@ const questionsData = [
     },
 ];
 
-const clues = [
-    'Δεν θα το βάλεις σε ράφι, ούτε σε κορνίζα. Δεν θα το φορέσεις, ούτε θα το κρύψεις σε συρτάρι. Δεν θα το τυλίξεις σε χαρτί, ούτε θα το αφήσεις να σκονιστεί.',
-    'Δεν λειτουργεί μόνο του. Κάποιος θα σου κρατάει το χέρι.',
-    'Από όλες τις Μαρίες, μόνο μία δεν έχει ακόμα κατι να πει για αυτό. Η Ραφαέλα όμως… ακόμα λέει τα δικά της σε κάθε ευκαιρία.',
-    'Θα εμφανιστεί όταν ξεπουλήσουν όλα τα κόκκινα.',
-    'Δεν είναι για 1, ούτε 2, ούτε 3. Ξεχωριστά ηλιοβασιλέματα και ξεχωριστές ανατολές.',
-    'Ο κόσμος θα «μικρύνει» κάτω από τα πόδια σου.',
-    'Τα μεσάνυχτα, το ρολόι θα δείχνει ακόμη έντεκα.',
-    'Δύο ψέματα και μία αλήθεια: Το βλέπεις και το ακούς κάθε μέρα. Το χειμώνα πέφτει χιόνι κάθε μέρα. Δεν καταλαβαίνεις τίποτα από όσα λένε.',
-    'Έχουν σχέση οι πατάτες και το τοστ, το κλειδί και το φιλί.',
-    "Όλα τα κομμάτια είναι εδώ: η στιγμή, η παρέα, η μέρα, η διάρκεια, ο τόπος… Βάλ' τα μαζί και (μπορεί) να βρεις το δώρο σου.",
-];
+const IntroScreen = ({ onStartGame }) => {
+    return (
+        <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 p-4">
+            <div className="mx-auto max-w-3xl rounded-2xl bg-white p-8 text-center shadow-xl">
+                <div className="mb-8">
+                    <Trophy className="mx-auto mb-4 h-20 w-20 animate-pulse text-yellow-500" />
+                    <h1 className="mb-4 text-5xl font-bold text-gray-800">🎯 ΕΚΑΤΟΜΜΥΡΙΟΥΧΟΣ QUIZ 🎯</h1>
+                    <div className="mb-6 flex justify-center space-x-4">
+                        <Star className="h-8 w-8 animate-spin text-yellow-400" />
+                        <Star className="h-8 w-8 animate-spin text-yellow-400" style={{ animationDelay: '0.2s' }} />
+                        <Star className="h-8 w-8 animate-spin text-yellow-400" style={{ animationDelay: '0.4s' }} />
+                    </div>
+                </div>
+
+                <div className="mb-8 rounded-xl bg-gradient-to-r from-purple-100 to-pink-100 p-6 text-left">
+                    <h2 className="mb-4 text-center text-2xl font-bold text-purple-800">
+                        🎁 Θα παίξουμε το παιχνίδι του εκατομμυρίου για να δούμε αν θα πάρεις το δώρο σου! 🎁
+                    </h2>
+
+                    <div className="space-y-4 text-gray-700">
+                        <div className="flex items-start space-x-3">
+                            <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-purple-500 text-sm font-bold text-white">
+                                1
+                            </div>
+                            <p className="text-lg">
+                                <strong>Κάθε 2 σωστές ερωτήσεις</strong> θα παίρνεις ένα στοιχείο για το δώρο σου!
+                            </p>
+                        </div>
+
+                        <div className="flex items-start space-x-3">
+                            <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-purple-500 text-sm font-bold text-white">
+                                2
+                            </div>
+                            <p className="text-lg">
+                                Έχεις <strong>3 βοήθειες</strong> στη διάθεσή σου:
+                            </p>
+                        </div>
+
+                        <div className="ml-11 space-y-3">
+                            <div className="flex items-center space-x-3 rounded-lg bg-yellow-50 p-3">
+                                <Scissors className="h-6 w-6 text-yellow-600" />
+                                <span className="font-semibold text-yellow-800">50-50:</span>
+                                <span className="text-gray-700">Αφαιρεί 2 λάθος απαντήσεις</span>
+                            </div>
+
+                            <div className="flex items-center space-x-3 rounded-lg bg-blue-50 p-3">
+                                <Users className="h-6 w-6 text-blue-600" />
+                                <span className="font-semibold text-blue-800">Κοινό:</span>
+                                <span className="text-gray-700">Συζητήστε την ερώτηση με τους άλλους παίκτες</span>
+                            </div>
+
+                            <div className="flex items-center space-x-3 rounded-lg bg-green-50 p-3">
+                                <Phone className="h-6 w-6 text-green-600" />
+                                <span className="font-semibold text-green-800">Τηλέφωνο:</span>
+                                <span className="text-gray-700">Καλέστε έναν φίλο για βοήθεια</span>
+                            </div>
+                        </div>
+
+                        <div className="flex items-start space-x-3">
+                            <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-purple-500 text-sm font-bold text-white">
+                                3
+                            </div>
+                            <p className="text-lg">Απάντησε σωστά όσες περισσότερες ερωτήσεις μπορείς για να μαζέψεις όλα τα στοιχεία!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button
+                    onClick={onStartGame}
+                    className="mx-auto flex transform items-center space-x-3 rounded-xl bg-gradient-to-r from-green-500 to-blue-500 px-8 py-4 text-2xl font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-green-600 hover:to-blue-600"
+                >
+                    <Play className="h-8 w-8" />
+                    <span>ΠΑΙΞΕ!</span>
+                </button>
+            </div>
+        </div>
+    );
+};
 
 const Lifelines = ({ lifelines, onUseLifeline, disabled }) => {
     return (
@@ -308,6 +374,7 @@ const LifelineMessage = ({ type, onClose }) => {
 };
 
 const QuizGame = () => {
+    const [gameStarted, setGameStarted] = useState(false);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [showResult, setShowResult] = useState(false);
@@ -325,6 +392,10 @@ const QuizGame = () => {
 
     const question = questionsData[currentQuestion];
     const isCorrect = selectedAnswer === question.correct;
+
+    const handleStartGame = () => {
+        setGameStarted(true);
+    };
 
     const handleAnswerSelect = (answerIndex) => {
         setSelectedAnswer(answerIndex);
@@ -373,6 +444,7 @@ const QuizGame = () => {
     };
 
     const restartGame = () => {
+        setGameStarted(false);
         setCurrentQuestion(0);
         setSelectedAnswer(null);
         setShowResult(false);
@@ -389,44 +461,44 @@ const QuizGame = () => {
         setShowLifelineMessage(null);
     };
 
+    if (!gameStarted) {
+        return <IntroScreen onStartGame={handleStartGame} />;
+    }
+
     if (gameCompleted) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 p-4">
                 <div className="container mx-auto py-8">
                     <div className="mx-auto max-w-2xl rounded-2xl bg-white p-8 text-center shadow-xl">
                         <Trophy className="mx-auto mb-6 h-16 w-16 text-yellow-500" />
-                        <h1 className="mb-4 text-4xl font-bold text-gray-800">Συγχαρητήρια!</h1>
+                        <h1 className="mb-4 text-4xl font-bold text-gray-800">🎉 Συγχαρητήρια! 🎉</h1>
                         <p className="mb-6 text-xl text-gray-600">
                             Τελείωσες το quiz! Σκορ: {score}/{questionsData.length}
                         </p>
 
-                        <div className="mb-8">
-                            <h3 className="mb-4 text-2xl font-bold text-gray-800">Τα στοιχεία που συγκέντρωσες:</h3>
-                            <div className="space-y-3">
-                                {collectedElements.map((element, index) => (
-                                    <div key={index} className="rounded-lg bg-purple-100 p-3 font-medium text-purple-800">
-                                        {element}
-                                    </div>
-                                ))}
+                        <div className="mb-8 rounded-xl bg-gradient-to-r from-pink-200 to-purple-200 p-8">
+                            <h2 className="mb-4 text-6xl font-bold text-purple-800">🎂</h2>
+                            <h3 className="mb-2 text-4xl font-bold text-purple-800">Χρόνια Πολλά</h3>
+                            <h3 className="text-4xl font-bold text-purple-800">Μαρία!</h3>
+                            <div className="mt-4 flex justify-center space-x-2">
+                                <span className="text-2xl">🎁</span>
+                                <span className="text-2xl">🎉</span>
+                                <span className="text-2xl">🎊</span>
+                                <span className="text-2xl">🥳</span>
+                                <span className="text-2xl">🎈</span>
                             </div>
                         </div>
 
-                        <div className="mb-8">
-                            <h3 className="mb-4 text-xl font-bold text-gray-800">Όλα τα στοιχεία μαζί:</h3>
-                            <div className="space-y-3 rounded-lg bg-gray-100 p-6 text-left">
-                                {clues.map((clue, index) => (
-                                    <p key={index} className="text-gray-700">
-                                        <span className="font-bold">{index + 1}.</span> {clue}
-                                    </p>
-                                ))}
-                            </div>
+                        <div className="mb-6">
+                            <h4 className="mb-2 text-lg font-bold text-gray-700">Στοιχεία που συγκέντρωσες:</h4>
+                            <p className="text-2xl font-bold text-purple-600">{collectedElements.length}/10</p>
                         </div>
 
                         <button
                             onClick={restartGame}
                             className="rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 px-8 py-3 text-lg font-bold text-white transition-transform hover:scale-105"
                         >
-                            Ξανά από την αρχή
+                            Παίξε Ξανά
                         </button>
                     </div>
                 </div>
@@ -461,6 +533,7 @@ const QuizGame = () => {
                     <p className="text-xl text-white/90">
                         Ερώτηση {currentQuestion + 1} από {questionsData.length}
                     </p>
+                    <p className="mt-2 text-lg text-white/80">Στοιχεία: {collectedElements.length}/10</p>
                 </div>
 
                 <ProgressBar current={currentQuestion + 1} total={questionsData.length} />
