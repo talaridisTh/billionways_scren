@@ -54,6 +54,8 @@ const PresentationView = () => {
         minimal: { name: 'Minimal', icon: 'fa-circle' },
         circular: { name: 'Circular', icon: 'fa-dot-circle' },
         staggered: { name: 'Staggered', icon: 'fa-layer-group' },
+        carousel: { name: 'Carousel', icon: 'fa-film' },
+        floating: { name: 'Floating Cards', icon: 'fa-feather-alt' },
         cards: { name: 'Cards', icon: 'fa-id-card' },
         list: { name: 'List', icon: 'fa-list' },
         masonry: { name: 'Masonry', icon: 'fa-th-large' },
@@ -69,7 +71,7 @@ const PresentationView = () => {
         glass: { name: 'Glass', icon: 'fa-gem', preview: 'bg-gradient-to-r from-slate-700 to-purple-700' },
         neon: { name: 'Neon', icon: 'fa-bolt', preview: 'bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600' },
     };
-
+    // #009C4A
     const handleThemeChange = (themeName: ThemeType) => {
         setCurrentTheme(themeName);
     };
@@ -124,7 +126,7 @@ const PresentationView = () => {
         }
 
         .sidebar-section-content.expanded {
-          max-height: 500px;
+          max-height: 10000px;
         }
       `}</style>
 

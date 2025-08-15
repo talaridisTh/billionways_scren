@@ -1,8 +1,11 @@
 import React from 'react';
+import { BubbleCloudLayout } from './BubbleCloudLayout';
 import { CardsLayout } from './CardsLayout';
+import { CarouselHorizontalLayout } from './CarouselHorizontalLayout';
 import { CircularGridLayout } from './CircularGridLayout';
 import { DenseGridLayout } from './DenseGridLayout';
 import { FlexGridLayout } from './FlexGridLayout';
+import { FloatingMinimalLayout } from './FloatingMinimalLayout';
 import { GridLayout } from './GridLayout';
 import { HexagonGridLayout } from './HexagonGridLayout';
 import { ListLayout } from './ListLayout';
@@ -26,6 +29,16 @@ export const CategoryRenderer: React.FC<CategoryLayoutProps> = ({ categories, se
             return <MinimalGridLayout categories={categories} selectedItem={selectedItem} onItemClick={onItemClick} styleHelpers={styleHelpers} />;
         case 'flex':
             return <FlexGridLayout categories={categories} selectedItem={selectedItem} onItemClick={onItemClick} styleHelpers={styleHelpers} />;
+        case 'carousel':
+            return (
+                <CarouselHorizontalLayout categories={categories} selectedItem={selectedItem} onItemClick={onItemClick} styleHelpers={styleHelpers} />
+            );
+        case 'bubble':
+            return <BubbleCloudLayout categories={categories} selectedItem={selectedItem} onItemClick={onItemClick} styleHelpers={styleHelpers} />;
+        case 'floating':
+            return (
+                <FloatingMinimalLayout categories={categories} selectedItem={selectedItem} onItemClick={onItemClick} styleHelpers={styleHelpers} />
+            );
         case 'circular':
             return <CircularGridLayout categories={categories} selectedItem={selectedItem} onItemClick={onItemClick} styleHelpers={styleHelpers} />;
         case 'hexagon':

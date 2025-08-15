@@ -28,7 +28,11 @@ export type LayoutType =
     | 'flex'
     | 'circular'
     | 'hexagon'
-    | 'staggered';
+    | 'staggered'
+    | 'carousel'
+    | 'bubble'
+    | 'floating';
+
 export type BackgroundType = 'dark' | 'light' | 'gradient' | 'mesh' | 'dots' | 'glass' | 'neon';
 
 export const themes: Record<ThemeType, ThemeClasses> = {

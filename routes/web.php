@@ -11,6 +11,10 @@ Route::get('/presentation', function () {
     return Inertia::render('presentation');
 })->name('presentation');
 
+Route::get('/xronia-polla-maria', function () {
+    return Inertia::render('millionaire/millionaire');
+})->name('presentation');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
