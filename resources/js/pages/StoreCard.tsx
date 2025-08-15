@@ -52,7 +52,8 @@ export const StoreCard: React.FC<StoreCardProps> = ({ store, styleHelpers }) => 
                     onError={() => setIdx((i) => (i < chain.length - 1 ? i + 1 : i))}
                 />
                 <div
-                    className={`absolute top-3 left-3 ${background === 'neon' ? 'bg-gradient-to-r from-purple-500 to-cyan-500' : colors.primary} rounded-lg px-2 py-1 text-xs text-white shadow-md`}
+                    className={`absolute top-3 left-3 ${background === 'neon' ? 'bg-gradient-to-r from-purple-500 to-cyan-500' : styleHelpers.isCustomTheme ? '' : colors.primary} rounded-lg px-2 py-1 text-xs text-white shadow-md`}
+                    style={styleHelpers.isCustomTheme ? { backgroundColor: styleHelpers.customColor } : {}}
                 >
                     <i className="fas fa-tag mr-1"></i>
                     {store.tag}
@@ -68,7 +69,10 @@ export const StoreCard: React.FC<StoreCardProps> = ({ store, styleHelpers }) => 
             <div className="p-4">
                 <div className="flex items-center justify-between">
                     <h4 className={`${getTextClass('primary')} font-medium`}>{store.name}</h4>
-                    <button className={`${colors.primary} rounded-lg px-3 py-1.5 text-xs text-white`}>
+                    <button 
+                        className={`${styleHelpers.isCustomTheme ? '' : colors.primary} rounded-lg px-3 py-1.5 text-xs text-white`}
+                        style={styleHelpers.isCustomTheme ? { backgroundColor: styleHelpers.customColor } : {}}
+                    >
                         <i className="fas fa-directions mr-1"></i>
                         Get Directions
                     </button>
@@ -76,7 +80,10 @@ export const StoreCard: React.FC<StoreCardProps> = ({ store, styleHelpers }) => 
                 <p className={`${getTextClass('tertiary')} mt-1 text-xs`}>{store.type}</p>
                 <div className="mt-2 flex items-center justify-between">
                     <div className="flex items-center">
-                        <i className={`fas fa-star ${colors.star} mr-1 text-xs`}></i>
+                        <i 
+                            className={`fas fa-star ${styleHelpers.isCustomTheme ? '' : colors.star} mr-1 text-xs`}
+                            style={styleHelpers.isCustomTheme ? { color: styleHelpers.customColor } : {}}
+                        ></i>
                         <span className={`${getTextClass('secondary')} text-xs`}>
                             {store.rating} ({store.reviews})
                         </span>

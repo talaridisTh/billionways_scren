@@ -43,7 +43,10 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ type, selectedCategory, 
 
     return (
         <div className={`${getCardBgClass()} rounded-2xl p-8 text-center`}>
-            <i className={`fas ${content.icon} ${getTextClass('tertiary')} mb-4 text-4xl`}></i>
+            <i 
+                className={`fas ${content.icon} ${styleHelpers.isCustomTheme ? '' : getTextClass('tertiary')} mb-4 text-4xl`}
+                style={styleHelpers.isCustomTheme ? { color: styleHelpers.customColor } : {}}
+            ></i>
             <h3 className={`${getTextClass('primary')} mb-2 text-lg font-semibold`}>{content.title}</h3>
             <p className={`${getTextClass('secondary')} text-sm`}>{content.description}</p>
         </div>

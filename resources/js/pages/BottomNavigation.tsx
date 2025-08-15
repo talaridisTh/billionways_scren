@@ -6,7 +6,7 @@ interface BottomNavigationProps {
 }
 
 export const BottomNavigation: React.FC<BottomNavigationProps> = ({ styleHelpers }) => {
-    const { colors, getCardBgClass, getTextClass } = styleHelpers;
+    const { colors, getCardBgClass, getTextClass, isCustomTheme, customColor } = styleHelpers;
 
     const navItems = [
         { id: 'home', icon: 'fa-home', label: 'Home', isActive: true },
@@ -22,13 +22,19 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({ styleHelpers
                 {navItems.map((item) => (
                     <button key={item.id} className="flex flex-col items-center justify-center">
                         {item.isCenter ? (
-                            <div className={`flex h-12 w-12 items-center justify-center rounded-full ${colors.primary} mx-auto -mt-5 shadow-lg`}>
+                            <div 
+                                className={`flex h-12 w-12 items-center justify-center rounded-full ${isCustomTheme ? '' : colors.primary} mx-auto -mt-5 shadow-lg`}
+                                style={isCustomTheme ? { backgroundColor: customColor } : {}}
+                            >
                                 <i className={`fas ${item.icon} text-lg text-white`}></i>
                                 <span className="sr-only">{item.label}</span>
                             </div>
                         ) : (
                             <>
-                                <i className={`fas ${item.icon} text-lg ${item.isActive ? colors.accent : getTextClass('tertiary')}`}></i>
+                                <i 
+                                    className={`fas ${item.icon} text-lg ${!isCustomTheme ? (item.isActive ? colors.accent : getTextClass('tertiary')) : getTextClass('tertiary')}`}
+                                    style={isCustomTheme && item.isActive ? { color: customColor } : {}}
+                                ></i>
                                 <span className={`mt-1 text-xs ${getTextClass('secondary')}`}>{item.label}</span>
                             </>
                         )}

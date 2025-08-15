@@ -5,7 +5,7 @@ import { backgroundStyles, BackgroundType, LayoutType, themes, ThemeType } from 
 interface ScreenConfig {
     id: string;
     name: string;
-    component: React.FC<{ theme: ThemeType; layout: LayoutType; background: BackgroundType }>;
+    component: React.FC<{ theme: ThemeType; layout: LayoutType; background: BackgroundType; customColor?: string }>;
     description?: string;
     icon?: string;
 }
@@ -13,6 +13,8 @@ interface ScreenConfig {
 const PresentationView = () => {
     const [currentScreenId, setCurrentScreenId] = useState<string>('home');
     const [currentTheme, setCurrentTheme] = useState<ThemeType>('orange');
+    const [customColor, setCustomColor] = useState<string>('#FF9500');
+    const [isCustomTheme, setIsCustomTheme] = useState<boolean>(false);
     const [currentLayout, setCurrentLayout] = useState<LayoutType>('grid');
     const [currentBackground, setCurrentBackground] = useState<BackgroundType>('dark');
     const [zoom, setZoom] = useState<number>(100);
@@ -74,6 +76,16 @@ const PresentationView = () => {
     // #009C4A
     const handleThemeChange = (themeName: ThemeType) => {
         setCurrentTheme(themeName);
+        setIsCustomTheme(false);
+    };
+
+    const handleCustomColorChange = (color: string) => {
+        setCustomColor(color);
+        setIsCustomTheme(true);
+    };
+
+    const getCustomThemeStyle = () => {
+        return { backgroundColor: customColor };
     };
 
     const handleLayoutChange = (layoutKey: LayoutType) => {
@@ -258,20 +270,45 @@ const PresentationView = () => {
                                                     key={themeName}
                                                     onClick={() => handleThemeChange(themeName as ThemeType)}
                                                     className={`relative rounded-xl p-3 transition-all ${
-                                                        currentTheme === themeName
+                                                        currentTheme === themeName && !isCustomTheme
                                                             ? 'scale-105 shadow-lg ring-2 ring-blue-500 ring-offset-2'
                                                             : 'hover:scale-105 hover:shadow-md'
                                                     }`}
                                                 >
-                                                    <div className={`h-8 w-full rounded-lg ${themes[themeName as ThemeType].primary} mb-1`}></div>
-                                                    <span className="text-xs font-medium capitalize">{themeName}</span>
-                                                    {currentTheme === themeName && (
+                                                    <span className="text-xs font-medium text-black capitalize mb-1 block">{themeName}</span>
+                                                    <div className={`h-8 w-full rounded-lg ${themes[themeName as ThemeType].primary}`}></div>
+                                                    {currentTheme === themeName && !isCustomTheme && (
                                                         <div className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500">
                                                             <i className="fas fa-check text-xs text-white"></i>
                                                         </div>
                                                     )}
                                                 </button>
                                             ))}
+                                        </div>
+
+                                        <div className="mt-4 border-t pt-4">
+                                            <div className="mb-2 flex items-center justify-between">
+                                                <span className="text-sm font-medium text-gray-700">Custom Color</span>
+                                                {isCustomTheme && (
+                                                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500">
+                                                        <i className="fas fa-check text-xs text-white"></i>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="flex items-center space-x-3">
+                                                <input
+                                                    type="color"
+                                                    value={customColor}
+                                                    onChange={(e) => handleCustomColorChange(e.target.value)}
+                                                    className="h-8 w-full cursor-pointer rounded border-0"
+                                                />
+                                                <div
+                                                    className="flex h-8 w-16 items-center justify-center rounded text-xs font-medium"
+                                                    style={{ backgroundColor: customColor, color: '#ffffff' }}
+                                                >
+                                                    {customColor.substring(1).toUpperCase()}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -333,24 +370,30 @@ const PresentationView = () => {
                                     <i className={`fas fa-chevron-${expandedSection === 'layouts' ? 'up' : 'down'} text-sm text-gray-400`}></i>
                                 </button>
                                 <div className={`sidebar-section-content ${expandedSection === 'layouts' ? 'expanded' : ''}`}>
-                                    <div className="space-y-2 p-4">
-                                        {Object.entries(layouts).map(([layoutKey, layoutInfo]) => (
-                                            <button
-                                                key={layoutKey}
-                                                onClick={() => handleLayoutChange(layoutKey as LayoutType)}
-                                                className={`flex w-full items-center space-x-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-all ${
-                                                    currentLayout === layoutKey
-                                                        ? 'border border-blue-200 bg-blue-50 text-blue-700'
-                                                        : 'border border-transparent hover:bg-gray-50'
-                                                }`}
-                                            >
-                                                <i
-                                                    className={`fas ${layoutInfo.icon} ${currentLayout === layoutKey ? 'text-blue-600' : 'text-gray-400'} w-5`}
-                                                ></i>
-                                                <span className="flex-1 text-left text-gray-800">{layoutInfo.name}</span>
-                                                {currentLayout === layoutKey && <i className="fas fa-check text-sm text-blue-600"></i>}
-                                            </button>
-                                        ))}
+                                    <div className="p-4">
+                                        <div className="grid grid-cols-3 gap-2">
+                                            {Object.entries(layouts).map(([layoutKey, layoutInfo]) => (
+                                                <button
+                                                    key={layoutKey}
+                                                    onClick={() => handleLayoutChange(layoutKey as LayoutType)}
+                                                    className={`relative rounded-xl p-3 transition-all ${
+                                                        currentLayout === layoutKey
+                                                            ? 'scale-105 shadow-lg ring-2 ring-blue-500 ring-offset-2'
+                                                            : 'hover:scale-105 hover:shadow-md'
+                                                    }`}
+                                                >
+                                                    <span className="text-xs font-medium text-black capitalize mb-1 block">{layoutInfo.name}</span>
+                                                    <div className="h-8 w-full rounded-lg bg-gray-100 flex items-center justify-center">
+                                                        <i className={`fas ${layoutInfo.icon} ${currentLayout === layoutKey ? 'text-blue-600' : 'text-gray-400'}`}></i>
+                                                    </div>
+                                                    {currentLayout === layoutKey && (
+                                                        <div className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500">
+                                                            <i className="fas fa-check text-xs text-white"></i>
+                                                        </div>
+                                                    )}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -392,7 +435,12 @@ const PresentationView = () => {
                             <div
                                 className={`overflow-hidden rounded-xl shadow-2xl ${currentBackground === 'glass' ? 'glass-effect' : currentBackground === 'neon' ? 'border border-purple-500/50 shadow-2xl shadow-purple-500/30' : 'bg-white'}`}
                             >
-                                <CurrentComponent theme={currentTheme} layout={currentLayout} background={currentBackground} />
+                                <CurrentComponent
+                                    theme={isCustomTheme ? 'custom' : currentTheme}
+                                    layout={currentLayout}
+                                    background={currentBackground}
+                                    customColor={customColor}
+                                />
                             </div>
                         </div>
                     </div>

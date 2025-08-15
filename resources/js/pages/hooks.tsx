@@ -1,8 +1,11 @@
 import { BackgroundType, LayoutType, ThemeClasses, themes, ThemeType } from './themes';
 import { StyleHelpers } from './types';
 
-export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, layout: LayoutType): StyleHelpers => {
+export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, layout: LayoutType, customColor?: string): StyleHelpers => {
     const colors = themes[theme];
+    
+    // Handle custom color when theme is 'custom'
+    const isCustomTheme = theme === 'custom' && Boolean(customColor);
 
     const getBackgroundClass = () => {
         if (background === 'light') return 'bg-white';
@@ -29,6 +32,7 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
         if (background === 'gradient' || background === 'mesh') return 'bg-white/80';
         if (background === 'glass') return 'bg-white/5 backdrop-blur-sm';
         if (background === 'neon') return 'bg-gray-900/60 border border-cyan-500/30';
+        if (isCustomTheme) return `bg-[${customColor}]/10`;
         return colors.surfaceBg;
     };
 
@@ -58,6 +62,9 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
         if (background === 'neon') {
             return 'text-cyan-400';
         }
+        if (isCustomTheme) {
+            return `text-[${customColor}]`;
+        }
         if (background === 'light' || background === 'gradient' || background === 'mesh') {
             return colors.accent.replace('text-', 'text-');
         }
@@ -67,6 +74,7 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
     const getButtonBgClass = (isActive: boolean) => {
         if (isActive) {
             if (background === 'neon') return 'bg-gradient-to-r from-purple-500 to-cyan-500 text-white shadow-lg shadow-purple-500/50';
+            if (isCustomTheme) return `bg-[${customColor}] text-white`;
             return `${colors.primary} text-white`;
         }
 
@@ -89,6 +97,8 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
         colors,
         background,
         layout,
+        customColor,
+        isCustomTheme,
         getBackgroundClass,
         getCardBgClass,
         getSurfaceBgClass,

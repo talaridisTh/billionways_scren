@@ -8,12 +8,12 @@ import { useStyleHelpers } from './hooks';
 import { StoreCard } from './StoreCard';
 import { ScreenProps } from './types';
 
-export const BillionwaysHomeScreen: React.FC<ScreenProps> = ({ theme, layout, background }) => {
+export const BillionwaysHomeScreen: React.FC<ScreenProps> = ({ theme, layout, background, customColor }) => {
     const [selectedFilter, setSelectedFilter] = useState('offers');
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
 
-    const styleHelpers = useStyleHelpers(theme, background, layout);
+    const styleHelpers = useStyleHelpers(theme, background, layout, customColor);
     const { getBackgroundClass, getCardBgClass, getSurfaceBgClass, getTextClass, getAccentClass } = styleHelpers;
 
     const handleCategoryClick = (categoryName: string) => {
@@ -109,7 +109,8 @@ export const BillionwaysHomeScreen: React.FC<ScreenProps> = ({ theme, layout, ba
                         <input
                             type="text"
                             placeholder="Search stores, offers..."
-                            className={`w-full rounded-xl p-3 pl-12 ${getSurfaceBgClass()} border-0 focus:ring-2 focus:ring-${styleHelpers.colors.primary.replace('bg-', '')} outline-none ${getTextClass('primary')} ${
+                            style={styleHelpers.isCustomTheme ? { ['--tw-ring-color' as string]: styleHelpers.customColor } : {}}
+                            className={`w-full rounded-xl p-3 pl-12 ${getSurfaceBgClass()} border-0 focus:ring-2 ${styleHelpers.isCustomTheme ? '' : `focus:ring-${styleHelpers.colors.primary.replace('bg-', '')}`} outline-none ${getTextClass('primary')} ${
                                 background === 'light' || background === 'gradient' || background === 'mesh'
                                     ? 'placeholder:text-gray-400'
                                     : background === 'neon'
@@ -117,8 +118,14 @@ export const BillionwaysHomeScreen: React.FC<ScreenProps> = ({ theme, layout, ba
                                       : 'placeholder:text-gray-500'
                             }`}
                         />
-                        <i className={`fas fa-search absolute top-4 left-4 ${getAccentClass()}`}></i>
-                        <button className={`absolute top-3 right-3 ${getAccentClass()}`}>
+                        <i 
+                            className={`fas fa-search absolute top-4 left-4 ${styleHelpers.isCustomTheme ? '' : getAccentClass()}`}
+                            style={styleHelpers.isCustomTheme ? { color: styleHelpers.customColor } : {}}
+                        ></i>
+                        <button 
+                            className={`absolute top-3 right-3 ${styleHelpers.isCustomTheme ? '' : getAccentClass()}`}
+                            style={styleHelpers.isCustomTheme ? { color: styleHelpers.customColor } : {}}
+                        >
                             <i className="fas fa-sliders-h"></i>
                         </button>
                     </div>
@@ -152,7 +159,8 @@ export const BillionwaysHomeScreen: React.FC<ScreenProps> = ({ theme, layout, ba
                         <div className="flex items-center">
                             <div className="relative mr-2">
                                 <select
-                                    className={`appearance-none rounded-lg border-0 bg-transparent py-1 pr-8 pl-2 text-sm ${getAccentClass()} focus:outline-none`}
+                                    className={`appearance-none rounded-lg border-0 bg-transparent py-1 pr-8 pl-2 text-sm ${styleHelpers.isCustomTheme ? '' : getAccentClass()} focus:outline-none`}
+                                    style={styleHelpers.isCustomTheme ? { color: styleHelpers.customColor } : {}}
                                 >
                                     <option value="relevance">Sort by</option>
                                     <option value="distance">Distance</option>
@@ -160,7 +168,10 @@ export const BillionwaysHomeScreen: React.FC<ScreenProps> = ({ theme, layout, ba
                                     <option value="discount">Discount</option>
                                 </select>
                                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-                                    <i className="fas fa-chevron-down text-xs"></i>
+                                    <i 
+                                        className="fas fa-chevron-down text-xs"
+                                        style={styleHelpers.isCustomTheme ? { color: styleHelpers.customColor } : {}}
+                                    ></i>
                                 </div>
                             </div>
                         </div>

@@ -4,12 +4,15 @@ export interface ScreenProps {
     theme: ThemeType;
     layout: LayoutType;
     background: BackgroundType;
+    customColor?: string;
 }
 
 export interface StyleHelpers {
     colors: ThemeClasses;
     background: BackgroundType;
     layout: LayoutType;
+    customColor?: string;
+    isCustomTheme?: boolean;
     getBackgroundClass: () => string;
     getCardBgClass: () => string;
     getSurfaceBgClass: () => string;
