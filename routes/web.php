@@ -13,7 +13,7 @@ Route::get('/presentation', function () {
 
 Route::get('/xronia-polla-maria', function () {
     return Inertia::render('millionaire/millionaire');
-})->name('presentation');
+})->name('xronia-polla-maria');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
