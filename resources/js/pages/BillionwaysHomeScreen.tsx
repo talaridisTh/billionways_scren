@@ -109,20 +109,35 @@ export const BillionwaysHomeScreen: React.FC<ScreenProps> = ({ theme, layout, ba
                         <input
                             type="text"
                             placeholder="Search stores, offers..."
-                            style={styleHelpers.isCustomTheme ? { ['--tw-ring-color' as string]: styleHelpers.customColor } : {}}
+                            style={
+                                background === 'neon'
+                                    ? (
+                                          styleHelpers.isCustomTheme
+                                              ? {
+                                                    ['--tw-ring-color' as string]: styleHelpers.customColor,
+                                                    ['--placeholder-color' as string]: styleHelpers.customColor,
+                                                }
+                                              : {
+                                                    ['--placeholder-color' as string]: `var(--color-${styleHelpers.colors.accent.replace('text-', '')})`,
+                                                }
+                                      )
+                                    : styleHelpers.isCustomTheme
+                                      ? { ['--tw-ring-color' as string]: styleHelpers.customColor }
+                                      : {}
+                            }
                             className={`w-full rounded-xl p-3 pl-12 ${getSurfaceBgClass()} border-0 focus:ring-2 ${styleHelpers.isCustomTheme ? '' : `focus:ring-${styleHelpers.colors.primary.replace('bg-', '')}`} outline-none ${getTextClass('primary')} ${
                                 background === 'light' || background === 'gradient' || background === 'mesh'
                                     ? 'placeholder:text-gray-400'
                                     : background === 'neon'
-                                      ? 'placeholder:text-purple-400'
+                                      ? 'placeholder-accent'
                                       : 'placeholder:text-gray-500'
                             }`}
                         />
-                        <i 
+                        <i
                             className={`fas fa-search absolute top-4 left-4 ${styleHelpers.isCustomTheme ? '' : getAccentClass()}`}
                             style={styleHelpers.isCustomTheme ? { color: styleHelpers.customColor } : {}}
                         ></i>
-                        <button 
+                        <button
                             className={`absolute top-3 right-3 ${styleHelpers.isCustomTheme ? '' : getAccentClass()}`}
                             style={styleHelpers.isCustomTheme ? { color: styleHelpers.customColor } : {}}
                         >
@@ -168,7 +183,7 @@ export const BillionwaysHomeScreen: React.FC<ScreenProps> = ({ theme, layout, ba
                                     <option value="discount">Discount</option>
                                 </select>
                                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-                                    <i 
+                                    <i
                                         className="fas fa-chevron-down text-xs"
                                         style={styleHelpers.isCustomTheme ? { color: styleHelpers.customColor } : {}}
                                     ></i>

@@ -26,7 +26,7 @@ export const FilterButtons: React.FC<FilterButtonsProps> = ({ selectedFilter, on
                     onClick={() => onFilterChange(filter.id)}
                     style={selectedFilter === filter.id && isCustomTheme ? { backgroundColor: customColor, color: '#ffffff' } : {}}
                 >
-                    <i 
+                    <i
                         className={`fas ${filter.icon} text-xs`}
                         style={selectedFilter === filter.id && isCustomTheme ? { color: customColor } : {}}
                     ></i>

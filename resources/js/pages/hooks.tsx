@@ -3,7 +3,7 @@ import { StyleHelpers } from './types';
 
 export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, layout: LayoutType, customColor?: string): StyleHelpers => {
     const colors = themes[theme];
-    
+
     // Handle custom color when theme is 'custom'
     const isCustomTheme = theme === 'custom' && Boolean(customColor);
 
@@ -23,7 +23,7 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
         if (background === 'mesh') return 'bg-white/90 backdrop-blur-sm shadow-sm';
         if (background === 'dots') return 'bg-gray-800/90 backdrop-blur-sm';
         if (background === 'glass') return 'bg-white/10 backdrop-blur-md border border-white/20';
-        if (background === 'neon') return 'bg-gray-900/80 border border-purple-500/30 shadow-lg shadow-purple-500/20';
+        if (background === 'neon') return `bg-gray-900/80 border ${colors.primary.replace('bg-', 'border-')}/30 shadow-lg shadow-orange-500/20`;
         return 'bg-gray-800';
     };
 
@@ -31,7 +31,7 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
         if (background === 'light') return 'bg-gray-100';
         if (background === 'gradient' || background === 'mesh') return 'bg-white/80';
         if (background === 'glass') return 'bg-white/5 backdrop-blur-sm';
-        if (background === 'neon') return 'bg-gray-900/60 border border-cyan-500/30';
+        if (background === 'neon') return `bg-gray-900/60 border ${colors.primary.replace('bg-', 'border-')}/30`;
         if (isCustomTheme) return `bg-[${customColor}]/10`;
         return colors.surfaceBg;
     };
@@ -43,13 +43,7 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
             if (type === 'tertiary') return 'text-gray-600';
             return 'text-gray-500';
         }
-        if (background === 'neon') {
-            if (type === 'primary') return 'text-cyan-50';
-            if (type === 'secondary') return 'text-purple-200';
-            if (type === 'tertiary') return 'text-pink-300';
-            return 'text-gray-400';
-        }
-        if (background === 'glass' || background === 'dots' || background === 'dark') {
+        if (background === 'neon' || background === 'glass' || background === 'dots' || background === 'dark') {
             if (type === 'primary') return 'text-white';
             if (type === 'secondary') return 'text-gray-200';
             if (type === 'tertiary') return 'text-gray-400';
@@ -59,9 +53,6 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
     };
 
     const getAccentClass = () => {
-        if (background === 'neon') {
-            return 'text-cyan-400';
-        }
         if (isCustomTheme) {
             return `text-[${customColor}]`;
         }
@@ -73,7 +64,10 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
 
     const getButtonBgClass = (isActive: boolean) => {
         if (isActive) {
-            if (background === 'neon') return 'bg-gradient-to-r from-purple-500 to-cyan-500 text-white shadow-lg shadow-purple-500/50';
+            if (background === 'neon') {
+                if (isCustomTheme) return `bg-[${customColor}] text-white shadow-lg shadow-orange-500/50`;
+                return `${colors.primary} text-white shadow-lg shadow-orange-500/50`;
+            }
             if (isCustomTheme) return `bg-[${customColor}] text-white`;
             return `${colors.primary} text-white`;
         }
@@ -85,7 +79,7 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
             return `bg-white/10 text-gray-200 border border-white/20`;
         }
         if (background === 'neon') {
-            return `bg-gray-900/60 text-cyan-200 border border-purple-500/30`;
+            return `bg-gray-900/60 text-gray-200 border ${colors.primary.replace('bg-', 'border-')}/30`;
         }
         if (background === 'dots' || background === 'dark') {
             return `${getSurfaceBgClass()} text-gray-300 border ${colors.border}`;

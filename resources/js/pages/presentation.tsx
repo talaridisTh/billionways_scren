@@ -433,7 +433,7 @@ const PresentationView = () => {
                             style={{ transform: `scale(${zoom / 100})` }}
                         >
                             <div
-                                className={`overflow-hidden rounded-xl shadow-2xl ${currentBackground === 'glass' ? 'glass-effect' : currentBackground === 'neon' ? 'border border-purple-500/50 shadow-2xl shadow-purple-500/30' : 'bg-white'}`}
+                                className={`overflow-hidden rounded-xl shadow-2xl ${currentBackground === 'glass' ? 'glass-effect' : currentBackground === 'neon' ? 'border border-purple-500/50 shadow-2xl shadow-orange-500/30' : 'bg-white'}`}
                             >
                                 <CurrentComponent
                                     theme={isCustomTheme ? 'custom' : currentTheme}

@@ -42,7 +42,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({ store, styleHelpers }) => 
     const src = chain[Math.min(idx, chain.length - 1)];
 
     return (
-        <div className={`${getCardBgClass()} overflow-hidden rounded-2xl ${background === 'neon' ? 'shadow-xl shadow-purple-500/10' : 'shadow-lg'}`}>
+        <div className={`${getCardBgClass()} overflow-hidden rounded-2xl ${background === 'neon' ? 'shadow-xl shadow-orange-500/10' : 'shadow-lg'}`}>
             <div className="relative">
                 <img
                     src={src}
@@ -52,7 +52,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({ store, styleHelpers }) => 
                     onError={() => setIdx((i) => (i < chain.length - 1 ? i + 1 : i))}
                 />
                 <div
-                    className={`absolute top-3 left-3 ${background === 'neon' ? 'bg-gradient-to-r from-purple-500 to-cyan-500' : styleHelpers.isCustomTheme ? '' : colors.primary} rounded-lg px-2 py-1 text-xs text-white shadow-md`}
+                    className={`absolute top-3 left-3 ${background === 'neon' ? (styleHelpers.isCustomTheme ? '' : colors.primary) : styleHelpers.isCustomTheme ? '' : colors.primary} rounded-lg px-2 py-1 text-xs text-white shadow-md`}
                     style={styleHelpers.isCustomTheme ? { backgroundColor: styleHelpers.customColor } : {}}
                 >
                     <i className="fas fa-tag mr-1"></i>
@@ -60,7 +60,11 @@ export const StoreCard: React.FC<StoreCardProps> = ({ store, styleHelpers }) => 
                 </div>
                 {store.hasCredit && (
                     <div
-                        className={`absolute right-3 bottom-3 ${background === 'neon' ? 'border border-cyan-500/50 bg-black/80' : 'bg-gray-900/90'} rounded-lg px-2 py-1 text-xs text-white shadow-md backdrop-blur`}
+                        className={`absolute right-3 bottom-3 ${
+                            background === 'neon'
+                                ? `border ${colors.primary.replace('bg-', 'border-')}/50 bg-black/80`
+                                : 'bg-gray-900/90'
+                        } rounded-lg px-2 py-1 text-xs text-white shadow-md backdrop-blur`}
                     >
                         Credit Card Available
                     </div>
@@ -69,8 +73,8 @@ export const StoreCard: React.FC<StoreCardProps> = ({ store, styleHelpers }) => 
             <div className="p-4">
                 <div className="flex items-center justify-between">
                     <h4 className={`${getTextClass('primary')} font-medium`}>{store.name}</h4>
-                    <button 
-                        className={`${styleHelpers.isCustomTheme ? '' : colors.primary} rounded-lg px-3 py-1.5 text-xs text-white`}
+                    <button
+                        className={`${styleHelpers.isCustomTheme ? '' : colors.primary} shadow-lg shadow-orange-500/20 rounded-lg px-3 py-1.5 text-xs text-white`}
                         style={styleHelpers.isCustomTheme ? { backgroundColor: styleHelpers.customColor } : {}}
                     >
                         <i className="fas fa-directions mr-1"></i>
@@ -80,7 +84,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({ store, styleHelpers }) => 
                 <p className={`${getTextClass('tertiary')} mt-1 text-xs`}>{store.type}</p>
                 <div className="mt-2 flex items-center justify-between">
                     <div className="flex items-center">
-                        <i 
+                        <i
                             className={`fas fa-star ${styleHelpers.isCustomTheme ? '' : colors.star} mr-1 text-xs`}
                             style={styleHelpers.isCustomTheme ? { color: styleHelpers.customColor } : {}}
                         ></i>
