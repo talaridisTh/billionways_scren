@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import { BackgroundType, LayoutType, ThemeClasses, ThemeType } from './themes';
 
 export interface ScreenProps {
@@ -19,6 +20,8 @@ export interface StyleHelpers {
     getTextClass: (type: 'primary' | 'secondary' | 'tertiary' | 'muted') => string;
     getAccentClass: () => string;
     getButtonBgClass: (isActive: boolean) => string;
+    getShadowClass: (size: 'md' | 'lg' | 'xl' | '2xl', opacity?: number) => string;
+    getShadowStyle: (size: 'md' | 'lg' | 'xl' | '2xl', opacity?: number) => CSSProperties | undefined;
 }
 
 export interface CategoryItemProps {

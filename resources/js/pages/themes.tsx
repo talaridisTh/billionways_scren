@@ -35,6 +35,7 @@ export type ThemeType =
     | 'rust'
     | 'apricot'
     | 'flame'
+    | 'purple'
     | 'custom';
 
 export type LayoutType =
@@ -372,6 +373,21 @@ export const themes: Record<ThemeType, ThemeClasses> = {
         textMuted: 'text-gray-500',
         border: 'border-gray-600',
         star: 'text-red-400',
+    },
+    purple: {
+        primary: 'bg-purple-500',
+        primaryHover: 'hover:bg-purple-600',
+        primaryDark: 'bg-purple-600',
+        accent: 'text-purple-500',
+        background: 'bg-gray-900',
+        cardBg: 'bg-gray-800',
+        surfaceBg: 'bg-gray-700',
+        textPrimary: 'text-white',
+        textSecondary: 'text-gray-300',
+        textTertiary: 'text-gray-400',
+        textMuted: 'text-gray-500',
+        border: 'border-gray-600',
+        star: 'text-purple-500',
     },
 };
 

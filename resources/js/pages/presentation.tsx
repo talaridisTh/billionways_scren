@@ -111,6 +111,81 @@ const PresentationView = () => {
     const currentScreen = screens.find((screen) => screen.id === currentScreenId) || screens[0];
     const CurrentComponent = currentScreen.component;
 
+    const hexToRgba = (hex: string, alpha: number) => {
+        const h = hex.replace('#', '');
+        const bigint = parseInt(h.length === 3 ? h.split('').map((c) => c + c).join('') : h, 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    };
+
+    const neonFrameClass = () => {
+        if (currentBackground !== 'neon') return 'bg-white';
+        if (isCustomTheme) return 'border';
+        const colorBase = themes[currentTheme].primary.replace('bg-', '');
+        const borderMap: Record<string, string> = {
+            'blue-500': 'border-blue-500/50',
+            'lime-500': 'border-lime-500/50',
+            'lime-700': 'border-lime-700/50',
+            'emerald-500': 'border-emerald-500/50',
+            'emerald-600': 'border-emerald-600/50',
+            'emerald-700': 'border-emerald-700/50',
+            'green-400': 'border-green-400/50',
+            'green-500': 'border-green-500/50',
+            'green-600': 'border-green-600/50',
+            'green-700': 'border-green-700/50',
+            'yellow-400': 'border-yellow-400/50',
+            'yellow-600': 'border-yellow-600/50',
+            'amber-500': 'border-amber-500/50',
+            'orange-200': 'border-orange-200/50',
+            'orange-300': 'border-orange-300/50',
+            'orange-400': 'border-orange-400/50',
+            'orange-500': 'border-orange-500/50',
+            'orange-600': 'border-orange-600/50',
+            'orange-700': 'border-orange-700/50',
+            'orange-800': 'border-orange-800/50',
+            'red-500': 'border-red-500/50',
+        };
+        const shadowMap: Record<string, string> = {
+            'blue-500': 'shadow-blue-500/30',
+            'lime-500': 'shadow-lime-500/30',
+            'lime-700': 'shadow-lime-700/30',
+            'emerald-500': 'shadow-emerald-500/30',
+            'emerald-600': 'shadow-emerald-600/30',
+            'emerald-700': 'shadow-emerald-700/30',
+            'green-400': 'shadow-green-400/30',
+            'green-500': 'shadow-green-500/30',
+            'green-600': 'shadow-green-600/30',
+            'green-700': 'shadow-green-700/30',
+            'yellow-400': 'shadow-yellow-400/30',
+            'yellow-600': 'shadow-yellow-600/30',
+            'amber-500': 'shadow-amber-500/30',
+            'orange-200': 'shadow-orange-200/30',
+            'orange-300': 'shadow-orange-300/30',
+            'orange-400': 'shadow-orange-400/30',
+            'orange-500': 'shadow-orange-500/30',
+            'orange-600': 'shadow-orange-600/30',
+            'orange-700': 'shadow-orange-700/30',
+            'orange-800': 'shadow-orange-800/30',
+            'red-500': 'shadow-red-500/30',
+        };
+        const borderLiteral = borderMap[colorBase] || 'border-gray-500/50';
+        const shadowLiteral = shadowMap[colorBase] || 'shadow-gray-500/30';
+        return `border ${borderLiteral} shadow-2xl ${shadowLiteral}`;
+    };
+
+    const neonFrameStyle = () => {
+        if (currentBackground !== 'neon') return undefined as React.CSSProperties | undefined;
+        if (isCustomTheme) {
+            return {
+                borderColor: hexToRgba(customColor, 0.5),
+                boxShadow: `0 25px 50px -12px ${hexToRgba(customColor, 0.3)}`,
+            } as React.CSSProperties;
+        }
+        return undefined;
+    };
+
     return (
         <>
             <style>{`
@@ -433,7 +508,10 @@ const PresentationView = () => {
                             style={{ transform: `scale(${zoom / 100})` }}
                         >
                             <div
-                                className={`overflow-hidden rounded-xl shadow-2xl ${currentBackground === 'glass' ? 'glass-effect' : currentBackground === 'neon' ? 'border border-purple-500/50 shadow-2xl shadow-orange-500/30' : 'bg-white'}`}
+                                className={`overflow-hidden rounded-xl shadow-2xl ${
+                                    currentBackground === 'glass' ? 'glass-effect' : currentBackground === 'neon' ? neonFrameClass() : 'bg-white'
+                                }`}
+                                style={neonFrameStyle()}
                             >
                                 <CurrentComponent
                                     theme={isCustomTheme ? 'custom' : currentTheme}

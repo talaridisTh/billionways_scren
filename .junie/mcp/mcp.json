@@ -1,0 +1,20 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/Users/thanos/Library/Application Support/Herd/bin/php83",
+            "args": [
+                "/Users/thanos/Herd/billionways/artisan",
+                "boost:mcp"
+            ]
+        },
+        "herd": {
+            "command": "/Users/thanos/Library/Application Support/Herd/bin/php83",
+            "args": [
+                "/Applications/Herd.app/Contents/Resources/herd-mcp.phar"
+            ],
+            "env": {
+                "SITE_PATH": "/Users/thanos/Herd/billionways"
+            }
+        }
+    }
+}

@@ -7,6 +7,87 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
     // Handle custom color when theme is 'custom'
     const isCustomTheme = theme === 'custom' && Boolean(customColor);
 
+    const parseBgToBase = (bg: string) => (bg.startsWith('bg-') ? bg.slice(3) : bg);
+    const colorBase = parseBgToBase(colors.primary);
+    const shadowByBase: Record<string, Record<number, string>> = {
+        'blue-500': { 10: 'shadow-blue-500/10', 20: 'shadow-blue-500/20', 30: 'shadow-blue-500/30', 50: 'shadow-blue-500/50' },
+        'lime-500': { 10: 'shadow-lime-500/10', 20: 'shadow-lime-500/20', 30: 'shadow-lime-500/30', 50: 'shadow-lime-500/50' },
+        'lime-700': { 10: 'shadow-lime-700/10', 20: 'shadow-lime-700/20', 30: 'shadow-lime-700/30', 50: 'shadow-lime-700/50' },
+        'emerald-500': { 10: 'shadow-emerald-500/10', 20: 'shadow-emerald-500/20', 30: 'shadow-emerald-500/30', 50: 'shadow-emerald-500/50' },
+        'emerald-600': { 10: 'shadow-emerald-600/10', 20: 'shadow-emerald-600/20', 30: 'shadow-emerald-600/30', 50: 'shadow-emerald-600/50' },
+        'emerald-700': { 10: 'shadow-emerald-700/10', 20: 'shadow-emerald-700/20', 30: 'shadow-emerald-700/30', 50: 'shadow-emerald-700/50' },
+        'green-400': { 10: 'shadow-green-400/10', 20: 'shadow-green-400/20', 30: 'shadow-green-400/30', 50: 'shadow-green-400/50' },
+        'green-500': { 10: 'shadow-green-500/10', 20: 'shadow-green-500/20', 30: 'shadow-green-500/30', 50: 'shadow-green-500/50' },
+        'green-600': { 10: 'shadow-green-600/10', 20: 'shadow-green-600/20', 30: 'shadow-green-600/30', 50: 'shadow-green-600/50' },
+        'green-700': { 10: 'shadow-green-700/10', 20: 'shadow-green-700/20', 30: 'shadow-green-700/30', 50: 'shadow-green-700/50' },
+        'yellow-400': { 10: 'shadow-yellow-400/10', 20: 'shadow-yellow-400/20', 30: 'shadow-yellow-400/30', 50: 'shadow-yellow-400/50' },
+        'yellow-600': { 10: 'shadow-yellow-600/10', 20: 'shadow-yellow-600/20', 30: 'shadow-yellow-600/30', 50: 'shadow-yellow-600/50' },
+        'amber-500': { 10: 'shadow-amber-500/10', 20: 'shadow-amber-500/20', 30: 'shadow-amber-500/30', 50: 'shadow-amber-500/50' },
+        'orange-200': { 10: 'shadow-orange-200/10', 20: 'shadow-orange-200/20', 30: 'shadow-orange-200/30', 50: 'shadow-orange-200/50' },
+        'orange-300': { 10: 'shadow-orange-300/10', 20: 'shadow-orange-300/20', 30: 'shadow-orange-300/30', 50: 'shadow-orange-300/50' },
+        'orange-400': { 10: 'shadow-orange-400/10', 20: 'shadow-orange-400/20', 30: 'shadow-orange-400/30', 50: 'shadow-orange-400/50' },
+        'orange-500': { 10: 'shadow-orange-500/10', 20: 'shadow-orange-500/20', 30: 'shadow-orange-500/30', 50: 'shadow-orange-500/50' },
+        'orange-600': { 10: 'shadow-orange-600/10', 20: 'shadow-orange-600/20', 30: 'shadow-orange-600/30', 50: 'shadow-orange-600/50' },
+        'orange-700': { 10: 'shadow-orange-700/10', 20: 'shadow-orange-700/20', 30: 'shadow-orange-700/30', 50: 'shadow-orange-700/50' },
+        'orange-800': { 10: 'shadow-orange-800/10', 20: 'shadow-orange-800/20', 30: 'shadow-orange-800/30', 50: 'shadow-orange-800/50' },
+        'red-500': { 10: 'shadow-red-500/10', 20: 'shadow-red-500/20', 30: 'shadow-red-500/30', 50: 'shadow-red-500/50' },
+        'purple-500': { 10: 'shadow-purple-500/10', 20: 'shadow-purple-500/20', 30: 'shadow-purple-500/30', 50: 'shadow-purple-500/50' },
+    };
+    const borderByBase: Record<string, Record<number, string>> = {
+        'blue-500': { 30: 'border-blue-500/30', 50: 'border-blue-500/50' },
+        'lime-500': { 30: 'border-lime-500/30', 50: 'border-lime-500/50' },
+        'lime-700': { 30: 'border-lime-700/30', 50: 'border-lime-700/50' },
+        'emerald-500': { 30: 'border-emerald-500/30', 50: 'border-emerald-500/50' },
+        'emerald-600': { 30: 'border-emerald-600/30', 50: 'border-emerald-600/50' },
+        'emerald-700': { 30: 'border-emerald-700/30', 50: 'border-emerald-700/50' },
+        'green-400': { 30: 'border-green-400/30', 50: 'border-green-400/50' },
+        'green-500': { 30: 'border-green-500/30', 50: 'border-green-500/50' },
+        'green-600': { 30: 'border-green-600/30', 50: 'border-green-600/50' },
+        'green-700': { 30: 'border-green-700/30', 50: 'border-green-700/50' },
+        'yellow-400': { 30: 'border-yellow-400/30', 50: 'border-yellow-400/50' },
+        'yellow-600': { 30: 'border-yellow-600/30', 50: 'border-yellow-600/50' },
+        'amber-500': { 30: 'border-amber-500/30', 50: 'border-amber-500/50' },
+        'orange-200': { 30: 'border-orange-200/30', 50: 'border-orange-200/50' },
+        'orange-300': { 30: 'border-orange-300/30', 50: 'border-orange-300/50' },
+        'orange-400': { 30: 'border-orange-400/30', 50: 'border-orange-400/50' },
+        'orange-500': { 30: 'border-orange-500/30', 50: 'border-orange-500/50' },
+        'orange-600': { 30: 'border-orange-600/30', 50: 'border-orange-600/50' },
+        'orange-700': { 30: 'border-orange-700/30', 50: 'border-orange-700/50' },
+        'orange-800': { 30: 'border-orange-800/30', 50: 'border-orange-800/50' },
+        'red-500': { 30: 'border-red-500/30', 50: 'border-red-500/50' },
+        'purple-500': { 30: 'border-purple-500/30', 50: 'border-purple-500/50' },
+        };
+    const hexToRgba = (hex: string, alpha: number) => {
+        const h = hex.replace('#', '');
+        const bigint = parseInt(h.length === 3 ? h.split('').map((c) => c + c).join('') : h, 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    };
+    const shadowSizeClass = (size: 'md' | 'lg' | 'xl' | '2xl') =>
+        size === 'md' ? 'shadow-md' : size === 'lg' ? 'shadow-lg' : size === 'xl' ? 'shadow-xl' : 'shadow-2xl';
+    const getShadowClass = (size: 'md' | 'lg' | 'xl' | '2xl', opacity: number = 0.2) => {
+        const sz = shadowSizeClass(size);
+        if (isCustomTheme) return sz;
+        const allowed = [10, 20, 30, 50];
+        const raw = Math.round(opacity * 100);
+        const pct = allowed.reduce((a, b) => (Math.abs(b - raw) < Math.abs(a - raw) ? b : a), allowed[0]);
+        const literal = shadowByBase[colorBase]?.[pct];
+        return literal ? `${sz} ${literal}` : sz;
+    };
+    const getShadowStyle = (size: 'md' | 'lg' | 'xl' | '2xl', opacity: number = 0.2) => {
+        if (!isCustomTheme || !customColor) return undefined;
+        const c = hexToRgba(customColor, opacity);
+        const map: Record<'md' | 'lg' | 'xl' | '2xl', string> = {
+            md: `0 4px 6px -1px ${c}, 0 2px 4px -2px ${c}`,
+            lg: `0 10px 15px -3px ${c}, 0 4px 6px -4px ${c}`,
+            xl: `0 20px 25px -5px ${c}, 0 10px 10px -5px ${c}`,
+            '2xl': `0 25px 50px -12px ${c}`,
+        };
+        return { boxShadow: map[size] };
+    };
+
     const getBackgroundClass = () => {
         if (background === 'light') return 'bg-white';
         if (background === 'gradient') return 'bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100';
@@ -23,7 +104,10 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
         if (background === 'mesh') return 'bg-white/90 backdrop-blur-sm shadow-sm';
         if (background === 'dots') return 'bg-gray-800/90 backdrop-blur-sm';
         if (background === 'glass') return 'bg-white/10 backdrop-blur-md border border-white/20';
-        if (background === 'neon') return `bg-gray-900/80 border ${colors.primary.replace('bg-', 'border-')}/30 shadow-lg shadow-orange-500/20`;
+        if (background === 'neon') {
+            const borderLiteral = isCustomTheme ? '' : borderByBase[colorBase]?.[30] || '';
+            return `bg-gray-900/80 border ${borderLiteral} ${getShadowClass('lg', 0.2)}`;
+        }
         return 'bg-gray-800';
     };
 
@@ -31,7 +115,10 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
         if (background === 'light') return 'bg-gray-100';
         if (background === 'gradient' || background === 'mesh') return 'bg-white/80';
         if (background === 'glass') return 'bg-white/5 backdrop-blur-sm';
-        if (background === 'neon') return `bg-gray-900/60 border ${colors.primary.replace('bg-', 'border-')}/30`;
+        if (background === 'neon') {
+            const borderLiteral = isCustomTheme ? '' : borderByBase[colorBase]?.[30] || '';
+            return `bg-gray-900/60 border ${borderLiteral}`;
+        }
         if (isCustomTheme) return `bg-[${customColor}]/10`;
         return colors.surfaceBg;
     };
@@ -65,8 +152,8 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
     const getButtonBgClass = (isActive: boolean) => {
         if (isActive) {
             if (background === 'neon') {
-                if (isCustomTheme) return `bg-[${customColor}] text-white shadow-lg shadow-orange-500/50`;
-                return `${colors.primary} text-white shadow-lg shadow-orange-500/50`;
+                if (isCustomTheme) return `bg-[${customColor}] text-white ${getShadowClass('lg', 0.5)}`;
+                return `${colors.primary} text-white ${getShadowClass('lg', 0.5)}`;
             }
             if (isCustomTheme) return `bg-[${customColor}] text-white`;
             return `${colors.primary} text-white`;
@@ -99,5 +186,7 @@ export const useStyleHelpers = (theme: ThemeType, background: BackgroundType, la
         getTextClass,
         getAccentClass,
         getButtonBgClass,
+        getShadowClass,
+        getShadowStyle,
     };
 };

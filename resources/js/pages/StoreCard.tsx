@@ -42,7 +42,10 @@ export const StoreCard: React.FC<StoreCardProps> = ({ store, styleHelpers }) => 
     const src = chain[Math.min(idx, chain.length - 1)];
 
     return (
-        <div className={`${getCardBgClass()} overflow-hidden rounded-2xl ${background === 'neon' ? 'shadow-xl shadow-orange-500/10' : 'shadow-lg'}`}>
+        <div
+            className={`${getCardBgClass()} overflow-hidden rounded-2xl ${background === 'neon' ? styleHelpers.getShadowClass('xl', 0.1) : 'shadow-lg'}`}
+            style={background === 'neon' ? styleHelpers.getShadowStyle('xl', 0.1) : undefined}
+        >
             <div className="relative">
                 <img
                     src={src}
@@ -74,8 +77,8 @@ export const StoreCard: React.FC<StoreCardProps> = ({ store, styleHelpers }) => 
                 <div className="flex items-center justify-between">
                     <h4 className={`${getTextClass('primary')} font-medium`}>{store.name}</h4>
                     <button
-                        className={`${styleHelpers.isCustomTheme ? '' : colors.primary} shadow-lg shadow-orange-500/20 rounded-lg px-3 py-1.5 text-xs text-white`}
-                        style={styleHelpers.isCustomTheme ? { backgroundColor: styleHelpers.customColor } : {}}
+                        className={`${styleHelpers.isCustomTheme ? '' : colors.primary} ${styleHelpers.getShadowClass('lg', 0.2)} rounded-lg px-3 py-1.5 text-xs text-white`}
+                        style={styleHelpers.isCustomTheme ? { backgroundColor: styleHelpers.customColor, ...styleHelpers.getShadowStyle('lg', 0.2) } : undefined}
                     >
                         <i className="fas fa-directions mr-1"></i>
                         Get Directions
