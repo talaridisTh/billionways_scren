@@ -1,19 +1,25 @@
-import { CSSProperties } from 'react';
-import { BackgroundType, LayoutType, ThemeClasses, ThemeType } from './themes';
-
 export interface ScreenProps {
-    theme: ThemeType;
-    layout: LayoutType;
-    background: BackgroundType;
-    customColor?: string;
+    // Fixed values, no props needed
 }
 
 export interface StyleHelpers {
-    colors: ThemeClasses;
-    background: BackgroundType;
-    layout: LayoutType;
-    customColor?: string;
-    isCustomTheme?: boolean;
+    colors: {
+        primary: string;
+        primaryHover: string;
+        primaryDark: string;
+        accent: string;
+        background: string;
+        cardBg: string;
+        surfaceBg: string;
+        textPrimary: string;
+        textSecondary: string;
+        textTertiary: string;
+        textMuted: string;
+        border: string;
+        star: string;
+    };
+    customColor: string;
+    isCustomTheme: boolean;
     getBackgroundClass: () => string;
     getCardBgClass: () => string;
     getSurfaceBgClass: () => string;
@@ -21,7 +27,7 @@ export interface StyleHelpers {
     getAccentClass: () => string;
     getButtonBgClass: (isActive: boolean) => string;
     getShadowClass: (size: 'md' | 'lg' | 'xl' | '2xl', opacity?: number) => string;
-    getShadowStyle: (size: 'md' | 'lg' | 'xl' | '2xl', opacity?: number) => CSSProperties | undefined;
+    getShadowStyle: (size: 'md' | 'lg' | 'xl' | '2xl', opacity?: number) => React.CSSProperties | undefined;
 }
 
 export interface CategoryItemProps {

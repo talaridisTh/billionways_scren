@@ -8,7 +8,7 @@ interface FilterButtonsProps {
 }
 
 export const FilterButtons: React.FC<FilterButtonsProps> = ({ selectedFilter, onFilterChange, styleHelpers }) => {
-    const { getButtonBgClass, isCustomTheme, customColor } = styleHelpers;
+    const { customColor, getShadowStyle } = styleHelpers;
 
     const filters = [
         { id: 'offers', label: 'All Discounts', icon: 'fa-tag' },
@@ -22,14 +22,13 @@ export const FilterButtons: React.FC<FilterButtonsProps> = ({ selectedFilter, on
             {filters.map((filter) => (
                 <button
                     key={filter.id}
-                    className={`${!isCustomTheme ? getButtonBgClass(selectedFilter === filter.id) : 'bg-white text-gray-800'} flex items-center space-x-2 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap transition-all`}
+                    className={`flex items-center space-x-2 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap transition-all ${
+                        selectedFilter === filter.id ? 'text-white' : 'border border-orange-400/30 bg-gray-900/60 text-gray-200'
+                    }`}
                     onClick={() => onFilterChange(filter.id)}
-                    style={selectedFilter === filter.id && isCustomTheme ? { backgroundColor: customColor, color: '#ffffff' } : {}}
+                    style={selectedFilter === filter.id ? { backgroundColor: customColor, ...getShadowStyle('lg', 0.5) } : {}}
                 >
-                    <i
-                        className={`fas ${filter.icon} text-xs`}
-                        style={selectedFilter === filter.id && isCustomTheme ? { color: customColor } : {}}
-                    ></i>
+                    <i className={`fas ${filter.icon} text-xs`}></i>
                     <span>{filter.label}</span>
                 </button>
             ))}

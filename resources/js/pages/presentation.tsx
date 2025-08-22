@@ -1,526 +1,544 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { BillionwaysHomeScreen } from './BillionwaysHomeScreen';
-import { backgroundStyles, BackgroundType, LayoutType, themes, ThemeType } from './themes';
+import BillsScreen from '@/pages/screen/BillsScreen';
+import CalculationSaveScreen from '@/pages/screen/CalculationSaveScreen';
+import InvestmentScreen from '@/pages/screen/InvestmentScreen';
+import LocationDetectionScreen from '@/pages/screen/LocationDetectionScreen';
+import LoginScreen from '@/pages/screen/LoginScreen';
+import PaymentMethodScreen from '@/pages/screen/PaymentMethodScreen';
+import ProfileScreen from '@/pages/screen/ProfileScreen';
+import QRCodeScreen from '@/pages/screen/QRCodeScreen';
+import RegistrationScreen from '@/pages/screen/RegistrationScreen';
+import ReviewPromptScreen from '@/pages/screen/ReviewPromptScreen';
+import ReviewScreen from '@/pages/screen/ReviewScreen';
+import ShopOwnerDashboardScreen from '@/pages/screen/ShopOwnerDashboardScreen';
+import ShopOwnerLoginScreen from '@/pages/screen/ShopOwnerLoginScreen';
+import StoreDetailsScreen from '@/pages/screen/StoreDetailsScreen';
+import StoreManagementScreen from '@/pages/screen/StoreManagementScreen';
+import SubscriptionPackageScreen from '@/pages/screen/SubscriptionPackageScreen';
+import TransactionHistoryScreen from '@/pages/screen/TransactionHistoryScreen';
+import WelcomeScreen from '@/pages/screen/WelcomeScreen';
+import React, { useEffect, useState } from 'react';
+import { BillionwaysHomeScreen } from './screen/BillionwaysHomeScreen';
+import ReceiptInputScreen from './screen/ReceiptInputScreen';
 
 interface ScreenConfig {
     id: string;
     name: string;
-    component: React.FC<{ theme: ThemeType; layout: LayoutType; background: BackgroundType; customColor?: string }>;
+    component: React.FC;
     description?: string;
     icon?: string;
+    visible: boolean;
 }
 
 const PresentationView = () => {
-    const [currentScreenId, setCurrentScreenId] = useState<string>('home');
-    const [currentTheme, setCurrentTheme] = useState<ThemeType>('orange');
-    const [customColor, setCustomColor] = useState<string>('#FF9500');
-    const [isCustomTheme, setIsCustomTheme] = useState<boolean>(false);
-    const [currentLayout, setCurrentLayout] = useState<LayoutType>('grid');
-    const [currentBackground, setCurrentBackground] = useState<BackgroundType>('dark');
-    const [zoom, setZoom] = useState<number>(100);
-    const [showGrid, setShowGrid] = useState<boolean>(false);
-    const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-    const [expandedSection, setExpandedSection] = useState<string>('screens');
-    const frameRef = useRef<HTMLDivElement>(null);
-    const [isMobile, setIsMobile] = useState<boolean>(false);
+    const [currentScreenId, setCurrentScreenId] = useState<string>(() => {
+        // Get screen from URL parameter if available
+        const urlParams = new URLSearchParams(window.location.search);
+        const screenParam = urlParams.get('screen');
+        return screenParam || 'dashboard';
+    });
+    const [currentTime, setCurrentTime] = useState<string>('');
 
     useEffect(() => {
-        const checkIfMobile = () => {
-            setIsMobile(window.innerWidth < 768);
-            if (window.innerWidth < 768) {
-                setSidebarOpen(false);
-            } else {
-                setSidebarOpen(true);
-            }
+        const updateTime = () => {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            setCurrentTime(`${hours}:${minutes}`);
         };
 
-        checkIfMobile();
-        window.addEventListener('resize', checkIfMobile);
-        return () => window.removeEventListener('resize', checkIfMobile);
+        updateTime();
+        const interval = setInterval(updateTime, 60000);
+
+        return () => clearInterval(interval);
     }, []);
 
     const screens: ScreenConfig[] = [
         {
-            id: 'home',
-            name: 'Home',
-            component: BillionwaysHomeScreen,
-            description: 'Main dashboard',
-            icon: 'fa-home',
+            id: 'welcome',
+            name: 'Welcome',
+            component: WelcomeScreen,
+            description: 'App introduction with Sign Up and Login options',
+            icon: 'fa-rocket',
+            visible: true,
         },
-    ];
+        {
+            id: 'login',
+            name: 'Login',
+            component: LoginScreen,
+            description: 'User login with email and password',
+            icon: 'fa-sign-in-alt',
+            visible: true,
+        },
+        {
+            id: 'registration',
+            name: 'Registration Method',
+            component: RegistrationScreen,
+            description: 'Email or phone number registration form',
+            icon: 'fa-user-plus',
+            visible: true,
+        },
+        {
+            id: 'pricing',
+            name: 'Subscription Package',
+            component: SubscriptionPackageScreen,
+            description: 'Package selection (A, B, C) with free trial info',
+            icon: 'fa-credit-card',
+            visible: true,
+        },
+        {
+            id: 'payment-method',
+            name: 'Payment Method',
+            component: PaymentMethodScreen,
+            description: 'Select payment method (PayPal, Stripe, Google Pay, etc.)',
+            icon: 'fa-credit-card',
+            visible: true,
+        },
+        {
+            id: 'location-detection',
+            name: 'Location Permission',
+            component: LocationDetectionScreen,
+            description: 'Location access permission for nearby providers',
+            icon: 'fa-map-marker-alt',
+            visible: true,
+        },
+        {
+            id: 'dashboard',
+            name: 'Home Screen',
+            component: BillionwaysHomeScreen,
+            description: 'Main screen with search, categories and nearby providers',
+            icon: 'fa-home',
+            visible: true,
+        },
+        {
+            id: 'store-details',
+            name: 'Store Details',
+            component: StoreDetailsScreen,
+            description: 'Store info, photos, hours, menu PDF and directions',
+            icon: 'fa-store',
+            visible: true,
+        },
+        {
+            id: 'bills',
+            name: 'Bills Screen',
+            component: BillsScreen,
+            description: 'Total earnings and detailed earnings by period',
+            icon: 'fa-file-alt',
+            visible: true,
+        },
+        {
+            id: 'investment',
+            name: 'Investment Screen',
+            component: InvestmentScreen,
+            description: 'Investment feature - under development message',
+            icon: 'fa-chart-line',
+            visible: true,
+        },
+        {
+            id: 'profile',
+            name: 'Profile Screen',
+            component: ProfileScreen,
+            description: 'Payment methods, cancel subscription, security settings',
+            icon: 'fa-user',
+            visible: true,
+        },
+        {
+            id: 'qr-code',
+            name: 'Personal QR Code',
+            component: QRCodeScreen,
+            description: 'Display QR code with user name for store scanning',
+            icon: 'fa-qrcode',
+            visible: true,
+        },
+        {
+            id: 'receipt-input',
+            name: 'Step 1: Receipt Confirmation & Input',
+            component: ReceiptInputScreen,
+            description: 'Discount confirmation, receipt scan or manual entry',
+            icon: 'fa-receipt',
+            visible: true,
+        },
+        {
+            id: 'confirmation-consent',
+            name: 'Step 2: Confirmation & Consent',
+            component: CalculationSaveScreen,
+            description: 'Package summary and auto-billing consent checkbox',
+            icon: 'fa-check-circle',
+            visible: true,
+        },
+        {
+            id: 'review-prompt',
+            name: 'Step 3: Review Invitation',
+            component: ReviewPromptScreen,
+            description: 'Prompt to review store experience',
+            icon: 'fa-comment-dots',
+            visible: true,
+        },
+        {
+            id: 'shop-owner-login',
+            name: 'Shop Owner Login',
+            component: ShopOwnerLoginScreen,
+            description: 'Partner login interface for store management',
+            icon: 'fa-store-alt',
+            visible: false,
+        },
+        {
+            id: 'shop-owner-dashboard',
+            name: 'Shop Owner Dashboard',
+            component: ShopOwnerDashboardScreen,
+            description: 'Daily scans, weekly discounts, average rating stats',
+            icon: 'fa-chart-pie',
+            visible: false,
+        },
+        {
+            id: 'store-management',
+            name: 'Store Profile Management',
+            component: StoreManagementScreen,
+            description: 'Edit photos, basic info, hours and menu PDF',
+            icon: 'fa-edit',
+            visible: false,
+        },
+        {
+            id: 'transaction-history',
+            name: 'Transaction History',
+            component: TransactionHistoryScreen,
+            description: 'All QR scan transactions with customer ID, date, discount',
+            icon: 'fa-history',
+            visible: false,
+        },
 
-    const layouts: Record<LayoutType, { name: string; icon: string }> = {
-        grid: { name: 'Grid', icon: 'fa-th' },
-        compact: { name: 'Compact', icon: 'fa-compress' },
-        dense: { name: 'Dense Grid', icon: 'fa-grip' },
-        minimal: { name: 'Minimal', icon: 'fa-circle' },
-        circular: { name: 'Circular', icon: 'fa-dot-circle' },
-        staggered: { name: 'Staggered', icon: 'fa-layer-group' },
-        carousel: { name: 'Carousel', icon: 'fa-film' },
-        floating: { name: 'Floating Cards', icon: 'fa-feather-alt' },
-        cards: { name: 'Cards', icon: 'fa-id-card' },
-        list: { name: 'List', icon: 'fa-list' },
-        masonry: { name: 'Masonry', icon: 'fa-th-large' },
-        magazine: { name: 'Magazine', icon: 'fa-newspaper' },
-    };
+    ]
 
-    const backgrounds: Record<BackgroundType, { name: string; icon: string; preview: string }> = {
-        dark: { name: 'Dark', icon: 'fa-moon', preview: 'bg-gray-500' },
-        light: { name: 'Light', icon: 'fa-sun', preview: 'bg-gray-500' },
-        gradient: { name: 'Gradient', icon: 'fa-palette', preview: 'bg-gradient-to-r from-purple-500 to-blue-500' },
-        mesh: { name: 'Mesh', icon: 'fa-brush', preview: 'bg-gradient-to-r from-rose-500 to-purple-500' },
-        dots: { name: 'Dots', icon: 'fa-circle', preview: 'bg-gray-800' },
-        glass: { name: 'Glass', icon: 'fa-gem', preview: 'bg-gradient-to-r from-slate-700 to-purple-700' },
-        neon: { name: 'Neon', icon: 'fa-bolt', preview: 'bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600' },
-    };
-    // #009C4A
-    const handleThemeChange = (themeName: ThemeType) => {
-        setCurrentTheme(themeName);
-        setIsCustomTheme(false);
-    };
 
-    const handleCustomColorChange = (color: string) => {
-        setCustomColor(color);
-        setIsCustomTheme(true);
-    };
-
-    const getCustomThemeStyle = () => {
-        return { backgroundColor: customColor };
-    };
-
-    const handleLayoutChange = (layoutKey: LayoutType) => {
-        setCurrentLayout(layoutKey);
-    };
-
-    const handleBackgroundChange = (bgKey: BackgroundType) => {
-        setCurrentBackground(bgKey);
-    };
-
-    const handleScreenChange = (screenId: string) => {
-        setCurrentScreenId(screenId);
-    };
-
-    const handleZoomChange = (newZoom: number) => {
-        setZoom(Math.max(25, Math.min(200, newZoom)));
-    };
-
-    const toggleSection = (section: string) => {
-        setExpandedSection(expandedSection === section ? '' : section);
-    };
-
-    const currentScreen = screens.find((screen) => screen.id === currentScreenId) || screens[0];
+    const currentScreen = screens.find((screen) => screen.id === currentScreenId && screen.visible) || screens.find(screen => screen.visible) || screens[0];
     const CurrentComponent = currentScreen.component;
 
-    const hexToRgba = (hex: string, alpha: number) => {
-        const h = hex.replace('#', '');
-        const bigint = parseInt(h.length === 3 ? h.split('').map((c) => c + c).join('') : h, 16);
-        const r = (bigint >> 16) & 255;
-        const g = (bigint >> 8) & 255;
-        const b = bigint & 255;
-        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-    };
-
-    const neonFrameClass = () => {
-        if (currentBackground !== 'neon') return 'bg-white';
-        if (isCustomTheme) return 'border';
-        const colorBase = themes[currentTheme].primary.replace('bg-', '');
-        const borderMap: Record<string, string> = {
-            'blue-500': 'border-blue-500/50',
-            'lime-500': 'border-lime-500/50',
-            'lime-700': 'border-lime-700/50',
-            'emerald-500': 'border-emerald-500/50',
-            'emerald-600': 'border-emerald-600/50',
-            'emerald-700': 'border-emerald-700/50',
-            'green-400': 'border-green-400/50',
-            'green-500': 'border-green-500/50',
-            'green-600': 'border-green-600/50',
-            'green-700': 'border-green-700/50',
-            'yellow-400': 'border-yellow-400/50',
-            'yellow-600': 'border-yellow-600/50',
-            'amber-500': 'border-amber-500/50',
-            'orange-200': 'border-orange-200/50',
-            'orange-300': 'border-orange-300/50',
-            'orange-400': 'border-orange-400/50',
-            'orange-500': 'border-orange-500/50',
-            'orange-600': 'border-orange-600/50',
-            'orange-700': 'border-orange-700/50',
-            'orange-800': 'border-orange-800/50',
-            'red-500': 'border-red-500/50',
-        };
-        const shadowMap: Record<string, string> = {
-            'blue-500': 'shadow-blue-500/30',
-            'lime-500': 'shadow-lime-500/30',
-            'lime-700': 'shadow-lime-700/30',
-            'emerald-500': 'shadow-emerald-500/30',
-            'emerald-600': 'shadow-emerald-600/30',
-            'emerald-700': 'shadow-emerald-700/30',
-            'green-400': 'shadow-green-400/30',
-            'green-500': 'shadow-green-500/30',
-            'green-600': 'shadow-green-600/30',
-            'green-700': 'shadow-green-700/30',
-            'yellow-400': 'shadow-yellow-400/30',
-            'yellow-600': 'shadow-yellow-600/30',
-            'amber-500': 'shadow-amber-500/30',
-            'orange-200': 'shadow-orange-200/30',
-            'orange-300': 'shadow-orange-300/30',
-            'orange-400': 'shadow-orange-400/30',
-            'orange-500': 'shadow-orange-500/30',
-            'orange-600': 'shadow-orange-600/30',
-            'orange-700': 'shadow-orange-700/30',
-            'orange-800': 'shadow-orange-800/30',
-            'red-500': 'shadow-red-500/30',
-        };
-        const borderLiteral = borderMap[colorBase] || 'border-gray-500/50';
-        const shadowLiteral = shadowMap[colorBase] || 'shadow-gray-500/30';
-        return `border ${borderLiteral} shadow-2xl ${shadowLiteral}`;
-    };
-
-    const neonFrameStyle = () => {
-        if (currentBackground !== 'neon') return undefined as React.CSSProperties | undefined;
-        if (isCustomTheme) {
-            return {
-                borderColor: hexToRgba(customColor, 0.5),
-                boxShadow: `0 25px 50px -12px ${hexToRgba(customColor, 0.3)}`,
-            } as React.CSSProperties;
-        }
-        return undefined;
-    };
+    // Update URL when screen changes
+    useEffect(() => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('screen', currentScreenId);
+        window.history.replaceState({}, '', url);
+    }, [currentScreenId]);
 
     return (
         <>
             <style>{`
-        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+                @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 
-        .dots-pattern {
-          background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-          background-size: 20px 20px;
-        }
+                .mobile-device {
+                    width: 375px;
+                    height: 812px;
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 45px;
+                    box-shadow: 0 0 0 10px #222, 0 0 0 11px #000;
+                    background-color: #000;
+                    padding: 10px;
+                    box-sizing: border-box;
+                }
 
-        .glass-effect {
-          backdrop-filter: blur(16px);
-          background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-          border: 1px solid rgba(255,255,255,0.2);
-        }
+                .mobile-frame {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    border: 10px solid #111;
+                    border-radius: 45px;
+                    pointer-events: none;
+                    z-index: 2000;
+                }
 
-        .sidebar-section {
-          transition: all 0.3s ease;
-        }
+                .iphone-notch {
+                    position: absolute;
+                    top: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 150px;
+                    height: 30px;
+                    background-color: #000;
+                    border-bottom-left-radius: 16px;
+                    border-bottom-right-radius: 16px;
+                    z-index: 2001;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
 
-        .sidebar-section-content {
-          max-height: 0;
-          overflow: hidden;
-          transition: max-height 0.3s ease;
-        }
+                .notch-content {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100px;
+                    height: 20px;
+                }
 
-        .sidebar-section-content.expanded {
-          max-height: 10000px;
-        }
-      `}</style>
+                .notch-camera {
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 50%;
+                    background: #222;
+                    border: 2px solid #444;
+                }
 
-            <div className="flex min-h-screen flex-col bg-gray-100">
-                {/* Header */}
-                <div className="flex items-center justify-between border-b bg-white p-3 shadow-sm">
-                    <div className="flex items-center">
-                        <button
-                            onClick={() => setSidebarOpen(!sidebarOpen)}
-                            className="mr-3 rounded-lg p-2 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-800"
-                            aria-label="Toggle sidebar"
-                        >
-                            <i className={`fas ${sidebarOpen ? 'fa-times' : 'fa-bars'}`}></i>
-                        </button>
-                        <div className="flex items-center space-x-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-orange-500 to-orange-600">
-                                <span className="text-sm font-bold text-white">B</span>
-                            </div>
-                        </div>
-                    </div>
+                .notch-speaker {
+                    width: 40px;
+                    height: 6px;
+                    border-radius: 3px;
+                    background: #222;
+                }
 
-                    <div className="flex items-center space-x-3">
-                        <div className="flex items-center space-x-2 rounded-lg bg-gray-100 px-3 py-1.5">
-                            <button
-                                onClick={() => handleZoomChange(zoom - 10)}
-                                className="rounded p-1 text-gray-600 transition-colors hover:bg-gray-200 hover:text-gray-800"
-                                disabled={zoom <= 25}
-                            >
-                                <i className="fas fa-minus text-sm"></i>
-                            </button>
-                            <span className="w-12 text-center text-sm font-medium text-gray-700">{zoom}%</span>
-                            <button
-                                onClick={() => handleZoomChange(zoom + 10)}
-                                className="rounded p-1 text-gray-600 transition-colors hover:bg-gray-200 hover:text-gray-800"
-                                disabled={zoom >= 200}
-                            >
-                                <i className="fas fa-plus text-sm"></i>
-                            </button>
-                        </div>
+                .notch-sensor {
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background: #222;
+                }
 
-                        <button
-                            onClick={() => setShowGrid(!showGrid)}
-                            className={`rounded-lg p-2 transition-colors ${showGrid ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'}`}
-                        >
-                            <i className="fas fa-border-all"></i>
-                        </button>
+                .status-bar {
+                    position: absolute;
+                    top: 6px;
+                    left: 0;
+                    right: 0;
+                    height: 30px;
+                    padding: 0 16px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    z-index: 1001;
+                    pointer-events: none;
+                }
 
-                        <button className="rounded-lg p-2 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-800">
-                            <i className="fas fa-expand"></i>
-                        </button>
-                    </div>
+                .status-time {
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: white;
+                    margin-left: 16px;
+                }
+
+                .status-icons {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 16px;
+                }
+
+                .status-icon {
+                    margin-left: 6px;
+                    color: white;
+                    font-size: 14px;
+                }
+
+                .mobile-screen {
+                    width: 100%;
+                    height: 100%;
+                    background-color: #000;
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 44px;
+                }
+
+                .mobile-content {
+                    position: absolute;
+                    top: 36px;
+                    left: 0;
+                    right: 0;
+                    bottom: 75px;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    padding: 0 2px;
+                }
+
+                .mobile-content > * {
+                    width: 100% !important;
+                    height: 100% !important;
+                    min-height: 100% !important;
+                    padding: 0 !important;
+                    margin: 0 !important;
+                    max-width: 100% !important;
+                    box-sizing: border-box !important;
+                }
+
+                .mobile-content .relative {
+                    position: relative !important;
+                }
+
+                .mobile-content .mx-auto {
+                    margin-left: auto !important;
+                    margin-right: auto !important;
+                    margin-top: 0 !important;
+                    margin-bottom: 0 !important;
+                }
+
+                .mobile-content .max-w-sm {
+                    max-width: 100% !important;
+                }
+
+                .mobile-content .min-h-screen {
+                    min-height: 100% !important;
+                    height: auto !important;
+                }
+
+                .mobile-content .pb-20 {
+                    padding-bottom: 0 !important;
+                }
+
+                .mobile-nav {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    height: 75px;
+                    background: rgba(17, 24, 39, 0.8);
+                    backdrop-filter: blur(20px);
+                    border-top: 1px solid rgba(255, 255, 255, 0.1);
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    padding: 0 8px 20px 8px;
+                    z-index: 1000;
+                }
+
+                .home-indicator {
+                    position: absolute;
+                    bottom: 5px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 120px;
+                    height: 4px;
+                    background-color: white;
+                    border-radius: 2px;
+                    z-index: 1001;
+                }
+
+                .nav-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    padding: 6px 10px;
+                    width: 60px;
+                }
+
+                .nav-item:hover {
+                    transform: scale(1.05);
+                }
+
+                .nav-icon {
+                    font-size: 20px;
+                    margin-bottom: 3px;
+                }
+
+                .nav-label {
+                    font-size: 10px;
+                    font-weight: 500;
+                }
+
+                .nav-add-button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 50%;
+                    background: #FF9500;
+                    box-shadow: 0 4px 10px rgba(255, 149, 0, 0.4);
+                    transition: all 0.2s ease;
+                }
+
+                .nav-add-button:hover {
+                    transform: scale(1.1);
+                    box-shadow: 0 6px 16px rgba(255, 149, 0, 0.6);
+                }
+
+                .screen-selector {
+                    background: rgba(17, 24, 39, 0.9);
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 149, 0, 0.3);
+                    border-radius: 12px;
+                    padding: 12px 16px;
+                    color: white;
+                    font-size: 14px;
+                    outline: none;
+                    transition: all 0.2s ease;
+                }
+
+                .screen-selector:focus {
+                    border-color: #FF9500;
+                    box-shadow: 0 0 0 2px rgba(255, 149, 0, 0.2);
+                }
+
+                .screen-selector option {
+                    background: #1f2937;
+                    color: white;
+                    padding: 8px;
+                }
+            `}</style>
+
+            <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 p-4">
+                <div className="mb-6 w-full max-w-md">
+                    <select className="screen-selector w-full" value={currentScreenId} onChange={(e) => setCurrentScreenId(e.target.value)}>
+                        {screens.filter(screen => screen.visible).map((screen) => (
+                            <option key={screen.id} value={screen.id}>
+                                {screen.name} Screen
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
-                <div className="relative flex flex-1 overflow-hidden">
-                    {/* Mobile overlay */}
-                    {sidebarOpen && isMobile && (
-                        <div className="bg-opacity-50 fixed inset-0 z-40 bg-black lg:hidden" onClick={() => setSidebarOpen(false)}></div>
-                    )}
-
-                    {/* Sidebar */}
-                    <div
-                        className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed top-0 left-0 z-50 h-full w-80 overflow-hidden border-r bg-white shadow-lg transition-transform duration-300 md:w-72 lg:relative lg:z-auto ${isMobile ? '' : 'lg:translate-x-0'}`}
-                    >
-                        <div className="h-full overflow-y-auto">
-                            {/* Sidebar Header */}
-                            <div className="border-b bg-gradient-to-r from-gray-50 to-gray-100 p-4">
-                                <div className="mb-2 flex items-center justify-between">
-                                    <h2 className="font-semibold text-gray-800">Design System</h2>
-                                    <span className="rounded-full bg-green-100 px-2 py-1 text-xs text-green-700">Active</span>
-                                </div>
-                                <p className="text-xs text-gray-600">Customize your presentation</p>
+                <div className="mobile-device">
+                    <div className="mobile-frame"></div>
+                    <div className="iphone-notch">
+                        <div className="notch-content">
+                            <div className="notch-camera"></div>
+                            <div className="notch-speaker"></div>
+                            <div className="notch-sensor"></div>
+                        </div>
+                    </div>
+                    <div className="status-bar">
+                        <div className="status-time">{currentTime}</div>
+                        <div className="status-icons">
+                            <div className="status-icon">
+                                <i className="fas fa-signal"></i>
                             </div>
-
-                            {/* Screens Section */}
-                            <div className="sidebar-section">
-                                <button
-                                    onClick={() => toggleSection('screens')}
-                                    className="flex w-full items-center justify-between border-b bg-white px-4 py-3 transition-colors hover:bg-gray-50"
-                                >
-                                    <div className="flex items-center space-x-3">
-                                        <i className="fas fa-desktop w-5 text-gray-600"></i>
-                                        <span className="font-medium text-gray-800">Screens</span>
-                                    </div>
-                                    <i className={`fas fa-chevron-${expandedSection === 'screens' ? 'up' : 'down'} text-sm text-gray-400`}></i>
-                                </button>
-                                <div className={`sidebar-section-content ${expandedSection === 'screens' ? 'expanded' : ''}`}>
-                                    <div className="space-y-2 p-4">
-                                        {screens.map((screen) => (
-                                            <button
-                                                key={screen.id}
-                                                onClick={() => handleScreenChange(screen.id)}
-                                                className={`flex w-full items-center space-x-3 rounded-lg px-4 py-3 text-left transition-all ${
-                                                    currentScreenId === screen.id
-                                                        ? 'border border-blue-200 bg-blue-50 text-blue-700 shadow-sm'
-                                                        : 'border border-transparent hover:bg-gray-50'
-                                                }`}
-                                            >
-                                                <i
-                                                    className={`fas ${screen.icon} ${currentScreenId === screen.id ? 'text-blue-600' : 'text-gray-400'}`}
-                                                ></i>
-                                                <div className="flex-1">
-                                                    <div className="text-sm font-medium">{screen.name}</div>
-                                                    <div className="mt-0.5 text-xs text-gray-500">{screen.description}</div>
-                                                </div>
-                                                {currentScreenId === screen.id && <i className="fas fa-check-circle text-sm text-blue-600"></i>}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
+                            <div className="status-icon">
+                                <i className="fas fa-wifi"></i>
                             </div>
-
-                            {/* Themes Section */}
-                            <div className="sidebar-section">
-                                <button
-                                    onClick={() => toggleSection('themes')}
-                                    className="flex w-full items-center justify-between border-b bg-white px-4 py-3 transition-colors hover:bg-gray-50"
-                                >
-                                    <div className="flex items-center space-x-3">
-                                        <i className="fas fa-paint-brush w-5 text-gray-600"></i>
-                                        <span className="font-medium text-gray-800">Color Themes</span>
-                                    </div>
-                                    <i className={`fas fa-chevron-${expandedSection === 'themes' ? 'up' : 'down'} text-sm text-gray-400`}></i>
-                                </button>
-                                <div className={`sidebar-section-content ${expandedSection === 'themes' ? 'expanded' : ''}`}>
-                                    <div className="p-4">
-                                        <div className="grid grid-cols-3 gap-2">
-                                            {Object.keys(themes).map((themeName) => (
-                                                <button
-                                                    key={themeName}
-                                                    onClick={() => handleThemeChange(themeName as ThemeType)}
-                                                    className={`relative rounded-xl p-3 transition-all ${
-                                                        currentTheme === themeName && !isCustomTheme
-                                                            ? 'scale-105 shadow-lg ring-2 ring-blue-500 ring-offset-2'
-                                                            : 'hover:scale-105 hover:shadow-md'
-                                                    }`}
-                                                >
-                                                    <span className="text-xs font-medium text-black capitalize mb-1 block">{themeName}</span>
-                                                    <div className={`h-8 w-full rounded-lg ${themes[themeName as ThemeType].primary}`}></div>
-                                                    {currentTheme === themeName && !isCustomTheme && (
-                                                        <div className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500">
-                                                            <i className="fas fa-check text-xs text-white"></i>
-                                                        </div>
-                                                    )}
-                                                </button>
-                                            ))}
-                                        </div>
-
-                                        <div className="mt-4 border-t pt-4">
-                                            <div className="mb-2 flex items-center justify-between">
-                                                <span className="text-sm font-medium text-gray-700">Custom Color</span>
-                                                {isCustomTheme && (
-                                                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500">
-                                                        <i className="fas fa-check text-xs text-white"></i>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            <div className="flex items-center space-x-3">
-                                                <input
-                                                    type="color"
-                                                    value={customColor}
-                                                    onChange={(e) => handleCustomColorChange(e.target.value)}
-                                                    className="h-8 w-full cursor-pointer rounded border-0"
-                                                />
-                                                <div
-                                                    className="flex h-8 w-16 items-center justify-center rounded text-xs font-medium"
-                                                    style={{ backgroundColor: customColor, color: '#ffffff' }}
-                                                >
-                                                    {customColor.substring(1).toUpperCase()}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Backgrounds Section */}
-                            <div className="sidebar-section">
-                                <button
-                                    onClick={() => toggleSection('backgrounds')}
-                                    className="flex w-full items-center justify-between border-b bg-white px-4 py-3 transition-colors hover:bg-gray-50"
-                                >
-                                    <div className="flex items-center space-x-3">
-                                        <i className="fas fa-image w-5 text-gray-600"></i>
-                                        <span className="font-medium text-gray-800">Backgrounds</span>
-                                    </div>
-                                    <i className={`fas fa-chevron-${expandedSection === 'backgrounds' ? 'up' : 'down'} text-sm text-gray-400`}></i>
-                                </button>
-                                <div className={`sidebar-section-content ${expandedSection === 'backgrounds' ? 'expanded' : ''}`}>
-                                    <div className="p-4">
-                                        <div className="grid grid-cols-2 gap-3">
-                                            {Object.entries(backgrounds).map(([bgKey, bgInfo]) => (
-                                                <button
-                                                    key={bgKey}
-                                                    onClick={() => handleBackgroundChange(bgKey as BackgroundType)}
-                                                    className={`relative overflow-hidden rounded-xl transition-all ${
-                                                        currentBackground === bgKey
-                                                            ? 'shadow-lg ring-2 ring-blue-500 ring-offset-2'
-                                                            : 'hover:shadow-md'
-                                                    }`}
-                                                >
-                                                    <div className={`h-16 ${bgInfo.preview} flex items-center justify-center`}>
-                                                        <i className={`fas ${bgInfo.icon} text-lg text-white opacity-50`}></i>
-                                                    </div>
-                                                    <div className="bg-white p-2">
-                                                        <span className="text-xs font-medium">{bgInfo.name}</span>
-                                                    </div>
-                                                    {currentBackground === bgKey && (
-                                                        <div className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500">
-                                                            <i className="fas fa-check text-xs text-white"></i>
-                                                        </div>
-                                                    )}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Layouts Section */}
-                            <div className="sidebar-section">
-                                <button
-                                    onClick={() => toggleSection('layouts')}
-                                    className="flex w-full items-center justify-between border-b bg-white px-4 py-3 transition-colors hover:bg-gray-50"
-                                >
-                                    <div className="flex items-center space-x-3">
-                                        <i className="fas fa-layer-group w-5 text-gray-600"></i>
-                                        <span className="font-medium text-gray-800">Layouts</span>
-                                    </div>
-                                    <i className={`fas fa-chevron-${expandedSection === 'layouts' ? 'up' : 'down'} text-sm text-gray-400`}></i>
-                                </button>
-                                <div className={`sidebar-section-content ${expandedSection === 'layouts' ? 'expanded' : ''}`}>
-                                    <div className="p-4">
-                                        <div className="grid grid-cols-3 gap-2">
-                                            {Object.entries(layouts).map(([layoutKey, layoutInfo]) => (
-                                                <button
-                                                    key={layoutKey}
-                                                    onClick={() => handleLayoutChange(layoutKey as LayoutType)}
-                                                    className={`relative rounded-xl p-3 transition-all ${
-                                                        currentLayout === layoutKey
-                                                            ? 'scale-105 shadow-lg ring-2 ring-blue-500 ring-offset-2'
-                                                            : 'hover:scale-105 hover:shadow-md'
-                                                    }`}
-                                                >
-                                                    <span className="text-xs font-medium text-black capitalize mb-1 block">{layoutInfo.name}</span>
-                                                    <div className="h-8 w-full rounded-lg bg-gray-100 flex items-center justify-center">
-                                                        <i className={`fas ${layoutInfo.icon} ${currentLayout === layoutKey ? 'text-blue-600' : 'text-gray-400'}`}></i>
-                                                    </div>
-                                                    {currentLayout === layoutKey && (
-                                                        <div className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500">
-                                                            <i className="fas fa-check text-xs text-white"></i>
-                                                        </div>
-                                                    )}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="status-icon">
+                                <i className="fas fa-battery-full"></i>
                             </div>
                         </div>
                     </div>
-
-                    {/* Main Content Area */}
-                    <div
-                        className={`flex-1 ${backgroundStyles[currentBackground]} ${currentBackground === 'dots' ? 'dots-pattern' : ''} relative flex items-center justify-center overflow-auto p-8`}
-                    >
-                        {/* Background Effects */}
-                        {currentBackground === 'glass' && (
-                            <div className="absolute inset-0 opacity-30">
-                                <div className="absolute top-20 left-20 h-96 w-96 rounded-full bg-purple-500 blur-3xl filter"></div>
-                                <div className="absolute right-20 bottom-20 h-96 w-96 rounded-full bg-blue-500 blur-3xl filter"></div>
-                                <div className="absolute top-1/2 left-1/2 h-96 w-96 rounded-full bg-pink-500 blur-3xl filter"></div>
-                            </div>
-                        )}
-                        {currentBackground === 'neon' && (
-                            <div className="absolute inset-0">
-                                <div className="absolute top-10 left-10 h-72 w-72 animate-pulse rounded-full bg-purple-600 blur-3xl filter"></div>
-                                <div
-                                    className="absolute right-10 bottom-10 h-72 w-72 animate-pulse rounded-full bg-cyan-600 blur-3xl filter"
-                                    style={{ animationDelay: '1s' }}
-                                ></div>
-                                <div
-                                    className="absolute top-1/2 left-1/4 h-72 w-72 animate-pulse rounded-full bg-pink-600 blur-3xl filter"
-                                    style={{ animationDelay: '2s' }}
-                                ></div>
-                            </div>
-                        )}
-
-                        {/* Device Frame */}
-                        <div
-                            ref={frameRef}
-                            className={`origin-center transform transition-transform ${showGrid ? 'bg-grid-pattern' : ''} relative z-10`}
-                            style={{ transform: `scale(${zoom / 100})` }}
-                        >
-                            <div
-                                className={`overflow-hidden rounded-xl shadow-2xl ${
-                                    currentBackground === 'glass' ? 'glass-effect' : currentBackground === 'neon' ? neonFrameClass() : 'bg-white'
-                                }`}
-                                style={neonFrameStyle()}
-                            >
-                                <CurrentComponent
-                                    theme={isCustomTheme ? 'custom' : currentTheme}
-                                    layout={currentLayout}
-                                    background={currentBackground}
-                                    customColor={customColor}
-                                />
-                            </div>
+                    <div className="mobile-screen">
+                        <div className="mobile-content">
+                            <CurrentComponent />
                         </div>
+                        <div className="mobile-nav">
+                            <button className="nav-item text-orange-400">
+                                <i className="nav-icon fas fa-home"></i>
+                                <span className="nav-label">Home</span>
+                            </button>
+                            <button className="nav-item text-gray-400 hover:text-gray-300">
+                                <i className="nav-icon fas fa-file-alt"></i>
+                                <span className="nav-label">My Bills</span>
+                            </button>
+                            <button className="nav-item">
+                                <div className="nav-add-button">
+                                    <i className="fas fa-qrcode text-lg text-white"></i>
+                                </div>
+                            </button>
+                            <button className="nav-item text-gray-400 hover:text-gray-300">
+                                <i className="nav-icon fas fa-chart-line"></i>
+                                <span className="nav-label">Invest</span>
+                            </button>
+                            <button className="nav-item text-gray-400 hover:text-gray-300">
+                                <i className="nav-icon fas fa-user"></i>
+                                <span className="nav-label">Account</span>
+                            </button>
+                        </div>
+                        <div className="home-indicator"></div>
                     </div>
                 </div>
             </div>

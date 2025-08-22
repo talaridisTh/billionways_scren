@@ -31,44 +31,34 @@ const svgPlaceholder = (text: string, w: number, h: number) => {
 };
 
 export const StoreCard: React.FC<StoreCardProps> = ({ store, styleHelpers }) => {
-    const { colors, background, layout, getCardBgClass, getTextClass } = styleHelpers;
-    const imgH = layout === 'compact' ? 96 : 128;
+    const { getCardBgClass, getTextClass, customColor, getShadowStyle } = styleHelpers;
+    const imgH = 128; // Fixed height for grid layout
+
     const chain = React.useMemo(() => {
         const alts = Array.isArray(store.alternatives) ? store.alternatives.filter(Boolean) : [];
         const last = svgPlaceholder(store.name, 800, imgH * 4);
         return [store.image, ...alts, last];
     }, [store.image, store.alternatives, store.name, imgH]);
+
     const [idx, setIdx] = React.useState(0);
     const src = chain[Math.min(idx, chain.length - 1)];
 
     return (
-        <div
-            className={`${getCardBgClass()} overflow-hidden rounded-2xl ${background === 'neon' ? styleHelpers.getShadowClass('xl', 0.1) : 'shadow-lg'}`}
-            style={background === 'neon' ? styleHelpers.getShadowStyle('xl', 0.1) : undefined}
-        >
+        <div className={`${getCardBgClass()} overflow-hidden rounded-2xl shadow-xl`} style={getShadowStyle('xl', 0.1)}>
             <div className="relative">
                 <img
                     src={src}
                     alt={store.name}
-                    className={`w-full ${layout === 'compact' ? 'h-24' : 'h-32'} object-cover`}
+                    className="h-32 w-full object-cover"
                     loading="lazy"
                     onError={() => setIdx((i) => (i < chain.length - 1 ? i + 1 : i))}
                 />
-                <div
-                    className={`absolute top-3 left-3 ${background === 'neon' ? (styleHelpers.isCustomTheme ? '' : colors.primary) : styleHelpers.isCustomTheme ? '' : colors.primary} rounded-lg px-2 py-1 text-xs text-white shadow-md`}
-                    style={styleHelpers.isCustomTheme ? { backgroundColor: styleHelpers.customColor } : {}}
-                >
+                <div className="absolute top-3 left-3 rounded-lg px-2 py-1 text-xs text-white shadow-md" style={{ backgroundColor: customColor }}>
                     <i className="fas fa-tag mr-1"></i>
                     {store.tag}
                 </div>
                 {store.hasCredit && (
-                    <div
-                        className={`absolute right-3 bottom-3 ${
-                            background === 'neon'
-                                ? `border ${colors.primary.replace('bg-', 'border-')}/50 bg-black/80`
-                                : 'bg-gray-900/90'
-                        } rounded-lg px-2 py-1 text-xs text-white shadow-md backdrop-blur`}
-                    >
+                    <div className="absolute right-3 bottom-3 rounded-lg border border-orange-400/50 bg-black/80 px-2 py-1 text-xs text-white shadow-md backdrop-blur">
                         Credit Card Available
                     </div>
                 )}
@@ -77,8 +67,8 @@ export const StoreCard: React.FC<StoreCardProps> = ({ store, styleHelpers }) => 
                 <div className="flex items-center justify-between">
                     <h4 className={`${getTextClass('primary')} font-medium`}>{store.name}</h4>
                     <button
-                        className={`${styleHelpers.isCustomTheme ? '' : colors.primary} ${styleHelpers.getShadowClass('lg', 0.2)} rounded-lg px-3 py-1.5 text-xs text-white`}
-                        style={styleHelpers.isCustomTheme ? { backgroundColor: styleHelpers.customColor, ...styleHelpers.getShadowStyle('lg', 0.2) } : undefined}
+                        className="rounded-lg px-3 py-1.5 text-xs text-white"
+                        style={{ backgroundColor: customColor, ...getShadowStyle('lg', 0.2) }}
                     >
                         <i className="fas fa-directions mr-1"></i>
                         Get Directions
@@ -87,10 +77,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({ store, styleHelpers }) => 
                 <p className={`${getTextClass('tertiary')} mt-1 text-xs`}>{store.type}</p>
                 <div className="mt-2 flex items-center justify-between">
                     <div className="flex items-center">
-                        <i
-                            className={`fas fa-star ${styleHelpers.isCustomTheme ? '' : colors.star} mr-1 text-xs`}
-                            style={styleHelpers.isCustomTheme ? { color: styleHelpers.customColor } : {}}
-                        ></i>
+                        <i className="fas fa-star mr-1 text-xs" style={{ color: customColor }}></i>
                         <span className={`${getTextClass('secondary')} text-xs`}>
                             {store.rating} ({store.reviews})
                         </span>
