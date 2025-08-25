@@ -3,12 +3,12 @@ import CalculationSaveScreen from '@/pages/screen/CalculationSaveScreen';
 import InvestmentScreen from '@/pages/screen/InvestmentScreen';
 import LocationDetectionScreen from '@/pages/screen/LocationDetectionScreen';
 import LoginScreen from '@/pages/screen/LoginScreen';
+import MapWithQRScreen from '@/pages/screen/MapWithQRScreen';
 import PaymentMethodScreen from '@/pages/screen/PaymentMethodScreen';
 import ProfileScreen from '@/pages/screen/ProfileScreen';
 import QRCodeScreen from '@/pages/screen/QRCodeScreen';
 import RegistrationScreen from '@/pages/screen/RegistrationScreen';
 import ReviewPromptScreen from '@/pages/screen/ReviewPromptScreen';
-import ReviewScreen from '@/pages/screen/ReviewScreen';
 import ShopOwnerDashboardScreen from '@/pages/screen/ShopOwnerDashboardScreen';
 import ShopOwnerLoginScreen from '@/pages/screen/ShopOwnerLoginScreen';
 import StoreDetailsScreen from '@/pages/screen/StoreDetailsScreen';
@@ -142,6 +142,14 @@ const PresentationView = () => {
             visible: true,
         },
         {
+            id: 'map-with-qr',
+            name: 'Stores Map & QR',
+            component: MapWithQRScreen,
+            description: 'Interactive map showing nearby stores with personal QR code',
+            icon: 'fa-map-marked-alt',
+            visible: true,
+        },
+        {
             id: 'qr-code',
             name: 'Personal QR Code',
             component: QRCodeScreen,
@@ -205,11 +213,10 @@ const PresentationView = () => {
             icon: 'fa-history',
             visible: false,
         },
+    ];
 
-    ]
-
-
-    const currentScreen = screens.find((screen) => screen.id === currentScreenId && screen.visible) || screens.find(screen => screen.visible) || screens[0];
+    const currentScreen =
+        screens.find((screen) => screen.id === currentScreenId && screen.visible) || screens.find((screen) => screen.visible) || screens[0];
     const CurrentComponent = currentScreen.component;
 
     // Update URL when screen changes
@@ -480,11 +487,13 @@ const PresentationView = () => {
             <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 p-4">
                 <div className="mb-6 w-full max-w-md">
                     <select className="screen-selector w-full" value={currentScreenId} onChange={(e) => setCurrentScreenId(e.target.value)}>
-                        {screens.filter(screen => screen.visible).map((screen) => (
-                            <option key={screen.id} value={screen.id}>
-                                {screen.name} Screen
-                            </option>
-                        ))}
+                        {screens
+                            .filter((screen) => screen.visible)
+                            .map((screen) => (
+                                <option key={screen.id} value={screen.id}>
+                                    {screen.name} Screen
+                                </option>
+                            ))}
                     </select>
                 </div>
 
