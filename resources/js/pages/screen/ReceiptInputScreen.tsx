@@ -274,6 +274,12 @@ const ReceiptInputScreen = () => {
                                     <span className={`${getTextClass('primary')} text-sm font-medium`}>€{receiptAmount}</span>
                                 </div>
                                 <div className="flex justify-between">
+                                    <span className={`${getTextClass('secondary')} text-sm`}>Final Amount:</span>
+                                    <span className={`text-sm font-semibold text-green-500`}>
+                                        €{(parseFloat(receiptAmount || '0') * (1 - discountInfo.percentage / 100)).toFixed(2)}
+                                    </span>
+                                </div>
+                                <div className="flex justify-between">
                                     <span className={`${getTextClass('secondary')} text-sm`}>Date & Time:</span>
                                     <span className={`${getTextClass('primary')} text-sm font-medium`}>
                                         {receiptDateTime.replace('T', ' ')}

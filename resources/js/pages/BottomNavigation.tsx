@@ -12,7 +12,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({ styleHelpers
         { id: 'home', icon: 'fa-home', label: 'Home', isActive: true },
         { id: 'bills', icon: 'fa-receipt', label: 'My Bills', isActive: false },
         { id: 'qr', icon: 'fa-qrcode', label: 'QR Code', isActive: false, isCenter: true },
-        { id: 'invest', icon: 'fa-chart-line', label: 'Invest', isActive: false },
+        { id: 'future', icon: 'fa-chart-line', label: 'Future', isActive: false },
         { id: 'account', icon: 'fa-user', label: 'Account', isActive: false },
     ];
 

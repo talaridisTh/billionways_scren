@@ -17,6 +17,7 @@ const CalculationSaveScreen = () => {
         time: new Date().toLocaleTimeString().slice(0, 5),
     };
 
+    const netAmount = transactionData.receiptAmount - transactionData.discountAmount;
     const handleSaveTransaction = () => {
         setIsSaving(true);
         setTimeout(() => {
@@ -90,6 +91,13 @@ const CalculationSaveScreen = () => {
                                 <span className="font-semibold text-green-400">-€{transactionData.discountAmount.toFixed(2)}</span>
                             </div>
 
+                            <div className="flex items-center justify-between py-2">
+                                <div className="flex items-center">
+                                    <i className="fas fa-equals mr-3 text-sm" style={{ color: customColor }}></i>
+                                    <span className={`${getTextClass('secondary')} text-sm`}>Total after discount:</span>
+                                </div>
+                                <span className={`${getTextClass('primary')} font-semibold`}>€{netAmount.toFixed(2)}</span>
+                            </div>
                             {/* Separator */}
                             <div className="my-4 border-t border-dashed border-gray-600"></div>
 

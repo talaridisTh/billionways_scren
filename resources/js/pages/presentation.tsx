@@ -531,7 +531,7 @@ const PresentationView = () => {
                             </button>
                             <button className="nav-item text-gray-400 hover:text-gray-300">
                                 <i className="nav-icon fas fa-chart-line"></i>
-                                <span className="nav-label">Invest</span>
+                                <span className="nav-label">Future</span>
                             </button>
                             <button className="nav-item text-gray-400 hover:text-gray-300">
                                 <i className="nav-icon fas fa-user"></i>
