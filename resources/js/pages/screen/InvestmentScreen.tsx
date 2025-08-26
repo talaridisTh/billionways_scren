@@ -36,9 +36,7 @@ const InvestmentScreen = () => {
                                 <i className="fas fa-chart-line text-3xl" style={{ color: customColor }}></i>
                             </div>
                             <h2 className={`${getTextClass('primary')} mb-2 text-xl font-bold`}>Coming Soon</h2>
-                            <p className={`${getTextClass('secondary')} text-sm leading-relaxed`}>
-                                Our investment feature is currently under development. You'll be able to invest your savings and grow your money soon!
-                            </p>
+                            <p className={`${getTextClass('secondary')} text-sm leading-relaxed`}></p>
                         </div>
 
                         <div className="space-y-4">
@@ -69,22 +67,6 @@ const InvestmentScreen = () => {
                     </div>
 
                     {/* Progress Indicator */}
-                    <div className={`${getCardBgClass()} mt-6 w-full max-w-sm rounded-xl p-4`} style={getShadowStyle('lg', 0.1)}>
-                        <div className="mb-2 flex items-center justify-between">
-                            <span className={`${getTextClass('secondary')} text-sm`}>Development Progress</span>
-                            <span className={`${getTextClass('secondary')} text-sm`}>75%</span>
-                        </div>
-                        <div className="h-2 w-full rounded-full bg-gray-700">
-                            <div
-                                className="h-2 rounded-full transition-all duration-1000"
-                                style={{
-                                    width: '75%',
-                                    backgroundColor: customColor,
-                                }}
-                            ></div>
-                        </div>
-                        <p className={`${getTextClass('tertiary')} mt-2 text-xs`}>Expected launch: Q2 2025</p>
-                    </div>
                 </div>
 
                 <BottomNavigation styleHelpers={styleHelpers} />

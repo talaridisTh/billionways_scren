@@ -18,7 +18,7 @@ const SubscriptionPackageScreen: React.FC<SubscriptionPackageScreenProps> = ({ o
             name: 'Monthly',
             price: '19.70 €',
             originalPrice: '19.70 €',
-            features: ['Monthly billing', 'Cancel anytime', 'Full access to all discounts', 'Global usage', 'Customer support'],
+            features: ['Monthly billing', 'Cancel anytime', 'Basic discounts up to 10%', 'Global usage', 'Customer support'],
             popular: false,
         },
         {
@@ -26,7 +26,13 @@ const SubscriptionPackageScreen: React.FC<SubscriptionPackageScreenProps> = ({ o
             name: '6-Month',
             price: '107.00 €',
             originalPrice: '118.20 €',
-            features: ['Save 9% compared to monthly', 'Full access to all discounts', 'Global usage', 'Priority customer support', 'Exclusive partner deals'],
+            features: [
+                'Save 9% compared to monthly',
+                'All features from Monthly plan',
+                'BONUS: Access to discounts up to 15%*',
+                'Priority customer support',
+                'Exclusive partner deals',
+            ],
             popular: true,
         },
         {
@@ -36,10 +42,10 @@ const SubscriptionPackageScreen: React.FC<SubscriptionPackageScreenProps> = ({ o
             originalPrice: '236.40 €',
             features: [
                 'Best value - save 28% compared to monthly',
-                'Full access to all discounts',
-                'Global usage',
+                'All features from 6-Month plan',
+                'BONUS: Access to all available discounts*',
                 'Premium customer support',
-                'Exclusive partner deals',
+                'VIP exclusive partner deals',
             ],
             popular: false,
         },
@@ -74,7 +80,7 @@ const SubscriptionPackageScreen: React.FC<SubscriptionPackageScreenProps> = ({ o
                                 <i className="fas fa-gift mr-2" style={{ color: customColor }}></i>
                                 <strong style={{ color: customColor }}>First month free</strong> for all plans
                             </p>
-                            <p className={`${getTextClass('tertiary')} mt-1 text-xs flex items-center justify-center opacity-70`}>
+                            <p className={`${getTextClass('tertiary')} mt-1 flex items-center justify-center text-xs opacity-70`}>
                                 <i className="fas fa-clock mr-1"></i>
                                 Limited time
                             </p>
@@ -117,7 +123,9 @@ const SubscriptionPackageScreen: React.FC<SubscriptionPackageScreenProps> = ({ o
                                                 {pkg.price}
                                             </span>
                                         </div>
-                                        <p className={`${getTextClass('tertiary')} text-xs`}>{pkg.id === 'A' ? 'per month' : pkg.id === 'B' ? 'for 6 months' : 'for 12 months'}</p>
+                                        <p className={`${getTextClass('tertiary')} text-xs`}>
+                                            {pkg.id === 'A' ? 'per month' : pkg.id === 'B' ? 'for 6 months' : 'for 12 months'}
+                                        </p>
                                     </div>
                                 </div>
 
@@ -125,7 +133,16 @@ const SubscriptionPackageScreen: React.FC<SubscriptionPackageScreenProps> = ({ o
                                     {pkg.features.map((feature, index) => (
                                         <div key={index} className="flex items-center">
                                             <i className="fas fa-check mr-3 text-xs" style={{ color: customColor }}></i>
-                                            <span className={`${getTextClass('secondary')} text-sm`}>{feature}</span>
+                                            <span className={`${getTextClass('secondary')} text-sm`}>
+                                                {feature.includes('BONUS:') ? (
+                                                    <>
+                                                        <span style={{ color: customColor, fontWeight: 'bold' }}>BONUS:</span>
+                                                        {feature.replace('BONUS:', '')}
+                                                    </>
+                                                ) : (
+                                                    feature
+                                                )}
+                                            </span>
                                         </div>
                                     ))}
                                 </div>
@@ -150,13 +167,20 @@ const SubscriptionPackageScreen: React.FC<SubscriptionPackageScreenProps> = ({ o
                             </div>
                             <label htmlFor="consent-checkbox" className="ml-1.5 block text-xs text-gray-300">
                                 I agree to be charged the selected plan rate after my free trial month ends unless I cancel.
-                                <span className="block mt-0.5 text-[10px] text-gray-400">
+                                <span className="mt-0.5 block text-[10px] text-gray-400">
                                     You can cancel anytime. We'll send a reminder 7 days before trial ends.
                                 </span>
                             </label>
                         </div>
                     </div>
-                    
+
+                    <div className={`${getCardBgClass()} mb-3 rounded-lg p-2`}>
+                        <p className={`${getTextClass('tertiary')} text-center text-[10px] opacity-70`}>
+                            *Bonus discounts are promotional gifts based on your plan selection and depend on partner availability. Not contractually
+                            guaranteed.
+                        </p>
+                    </div>
+
                     <button
                         onClick={handleContinue}
                         disabled={!selectedPackage || !consentChecked}

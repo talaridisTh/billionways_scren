@@ -31,7 +31,6 @@ interface ScreenConfig {
 
 const PresentationView = () => {
     const [currentScreenId, setCurrentScreenId] = useState<string>(() => {
-        // Get screen from URL parameter if available
         const urlParams = new URLSearchParams(window.location.search);
         const screenParam = urlParams.get('screen');
         return screenParam || 'dashboard';
@@ -155,7 +154,7 @@ const PresentationView = () => {
             component: QRCodeScreen,
             description: 'Display QR code with user name for store scanning',
             icon: 'fa-qrcode',
-            visible: true,
+            visible: false,
         },
         {
             id: 'receipt-input',
@@ -219,7 +218,6 @@ const PresentationView = () => {
         screens.find((screen) => screen.id === currentScreenId && screen.visible) || screens.find((screen) => screen.visible) || screens[0];
     const CurrentComponent = currentScreen.component;
 
-    // Update URL when screen changes
     useEffect(() => {
         const url = new URL(window.location.href);
         url.searchParams.set('screen', currentScreenId);
@@ -427,6 +425,7 @@ const PresentationView = () => {
                     transition: all 0.2s ease;
                     padding: 6px 10px;
                     width: 60px;
+                    position: relative;
                 }
 
                 .nav-item:hover {
@@ -458,6 +457,33 @@ const PresentationView = () => {
                 .nav-add-button:hover {
                     transform: scale(1.1);
                     box-shadow: 0 6px 16px rgba(255, 149, 0, 0.6);
+                }
+
+                .coming-soon-badge {
+                    position: absolute;
+                    top: -8px;
+                    right: -14px;
+                    background: #FF9500;
+                    color: white;
+                    font-size: 8px;
+                    font-weight: 600;
+                    padding: 2px 6px;
+                    border-radius: 8px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    box-shadow: 0 2px 4px rgba(255, 149, 0, 0.3);
+                    animation: pulse-badge 2s infinite;
+                }
+
+                @keyframes pulse-badge {
+                    0%, 100% {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                    50% {
+                        transform: scale(1.05);
+                        opacity: 0.9;
+                    }
                 }
 
                 .screen-selector {
@@ -539,8 +565,9 @@ const PresentationView = () => {
                                 </div>
                             </button>
                             <button className="nav-item text-gray-400 hover:text-gray-300">
+                                <div className="coming-soon-badge">Soon</div>
                                 <i className="nav-icon fas fa-chart-line"></i>
-                                <span className="nav-label">Future</span>
+                                <span className="nav-label">Invest</span>
                             </button>
                             <button className="nav-item text-gray-400 hover:text-gray-300">
                                 <i className="nav-icon fas fa-user"></i>

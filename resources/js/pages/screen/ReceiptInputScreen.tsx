@@ -19,9 +19,7 @@ const ReceiptInputScreen = () => {
     });
 
     // Product repeater state
-    const [products, setProducts] = useState<Product[]>([
-        { id: uuidv4(), name: '', price: '', quantity: '1' }
-    ]);
+    const [products, setProducts] = useState<Product[]>([{ id: uuidv4(), name: '', price: '', quantity: '1' }]);
 
     const styleHelpers = useStyleHelpers();
     const { getBackgroundClass, getCardBgClass, getSurfaceBgClass, getTextClass, customColor, getShadowStyle } = styleHelpers;
@@ -37,20 +35,18 @@ const ReceiptInputScreen = () => {
 
     const handleRemoveProduct = (id: string) => {
         if (products.length > 1) {
-            setProducts(products.filter(product => product.id !== id));
+            setProducts(products.filter((product) => product.id !== id));
         }
     };
 
     const handleProductChange = (id: string, field: keyof Product, value: string) => {
-        setProducts(products.map(product =>
-            product.id === id ? { ...product, [field]: value } : product
-        ));
+        setProducts(products.map((product) => (product.id === id ? { ...product, [field]: value } : product)));
 
         // Auto-calculate total amount
         const total = products.reduce((sum, product) => {
             const price = parseFloat(product.price) || 0;
             const quantity = parseInt(product.quantity) || 0;
-            return sum + (price * quantity);
+            return sum + price * quantity;
         }, 0);
 
         setReceiptAmount(total.toFixed(2));
@@ -216,7 +212,7 @@ const ReceiptInputScreen = () => {
                                                                 type="number"
                                                                 value={product.price}
                                                                 onChange={(e) => handleProductChange(product.id, 'price', e.target.value)}
-                                                                className="w-full rounded-lg border border-gray-600 bg-gray-700 pl-8 pr-3 py-2 text-sm text-white focus:border-orange-400 focus:outline-none"
+                                                                className="w-full rounded-lg border border-gray-600 bg-gray-700 py-2 pr-3 pl-8 text-sm text-white focus:border-orange-400 focus:outline-none"
                                                                 placeholder="0.00"
                                                                 step="0.01"
                                                             />
@@ -245,7 +241,7 @@ const ReceiptInputScreen = () => {
 
                                 <div>
                                     <label htmlFor="receiptAmount" className={`${getTextClass('secondary')} mb-1 block text-sm font-medium`}>
-                                         Amount (€)
+                                        Amount (€)
                                     </label>
                                     <input
                                         type="number"
@@ -258,7 +254,8 @@ const ReceiptInputScreen = () => {
                                     />
                                 </div>
                             </div>
-                        )}</div>
+                        )}
+                    </div>
 
                     {/* Receipt Preview */}
                     {receiptAmount && (
@@ -280,16 +277,12 @@ const ReceiptInputScreen = () => {
                                     </span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className={`${getTextClass('secondary')} text-sm`}>Date & Time:</span>
-                                    <span className={`${getTextClass('primary')} text-sm font-medium`}>
-                                        {receiptDateTime.replace('T', ' ')}
-                                    </span>
+                                    <span className={`${getTextClass('secondary')} text-sm`}>Discount:</span>
+                                    <span className="text-sm font-medium text-green-500">{discountInfo.percentage}%</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className={`${getTextClass('secondary')} text-sm`}>Discount:</span>
-                                    <span className="text-sm font-medium text-green-500" >
-                                        {discountInfo.percentage}%
-                                    </span>
+                                    <span className={`${getTextClass('secondary')} text-sm`}>Date & Time:</span>
+                                    <span className={`${getTextClass('primary')} text-sm font-medium`}>{receiptDateTime.replace('T', ' ')}</span>
                                 </div>
                             </div>
                         </div>

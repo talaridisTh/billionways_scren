@@ -27,6 +27,7 @@ const BillsScreen = () => {
         { id: 'week', label: 'Week', value: earningsData.week },
         { id: 'month', label: 'Month', value: earningsData.month },
         { id: 'year', label: 'Year', value: earningsData.year },
+        { id: 'total', label: 'Total', value: earningsData.total },
     ];
 
     const renderBackgroundEffects = () => {
@@ -66,12 +67,12 @@ const BillsScreen = () => {
 
                     {/* Period Selector */}
                     <div className={`${getSurfaceBgClass()} rounded-lg p-1`}>
-                        <div className="grid grid-cols-4 gap-1">
+                        <div className="grid grid-cols-5 gap-1">
                             {periods.map((period) => (
                                 <button
                                     key={period.id}
                                     onClick={() => setSelectedPeriod(period.id)}
-                                    className={`rounded-lg px-3 py-2 text-sm font-medium transition-all ${
+                                    className={`rounded-lg px-2 py-2 text-xs font-medium transition-all ${
                                         selectedPeriod === period.id ? 'text-white' : 'text-gray-400 hover:text-gray-200'
                                     }`}
                                     style={selectedPeriod === period.id ? { backgroundColor: customColor } : {}}
@@ -95,7 +96,7 @@ const BillsScreen = () => {
 
                         {/* Simple Chart Visualization */}
                         <div className="space-y-2">
-                            {periods.map((period, index) => (
+                            {periods.slice(0, 4).map((period, index) => (
                                 <div key={period.id} className="flex items-center">
                                     <span className={`${getTextClass('secondary')} w-12 text-sm`}>{period.label}</span>
                                     <div className="mx-3 h-2 flex-1 rounded-full bg-gray-700">
