@@ -18,7 +18,7 @@ const SubscriptionPackageScreen: React.FC<SubscriptionPackageScreenProps> = ({ o
             name: 'Monthly',
             price: '19.70 €',
             originalPrice: '19.70 €',
-            features: ['Monthly billing', 'Cancel anytime', 'Basic discounts up to 10%', 'Global usage', 'Customer support'],
+            features: ['Monthly billing', 'Cancel anytime', 'Basic discounts 10%', 'Global usage', 'Customer support'],
             popular: false,
         },
         {

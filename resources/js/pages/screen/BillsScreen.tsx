@@ -46,7 +46,7 @@ const BillsScreen = () => {
                 {/* Header */}
                 <div className="px-5 pt-4">
                     <div className="mb-4 flex items-center">
-                        <h1 className={`${getTextClass('primary')} text-xl font-bold`}>My Bills</h1>
+                        <h1 className={`${getTextClass('primary')} text-xl font-bold`}>Bills</h1>
                     </div>
                 </div>
 

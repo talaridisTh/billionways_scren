@@ -191,15 +191,6 @@ const ShopOwnerDashboardScreen = () => {
                             <i className="fas fa-store mr-2"></i>
                             Manage Store Profile
                         </button>
-
-                        <button
-                            onClick={handleViewTransactions}
-                            className={`w-full rounded-xl px-4 py-3 text-sm font-medium transition-all hover:scale-105 ${getSurfaceBgClass()} ${getTextClass('primary')}`}
-                            style={getShadowStyle('lg', 0.2)}
-                        >
-                            <i className="fas fa-history mr-2" style={{ color: customColor }}></i>
-                            View Transaction History
-                        </button>
                     </div>
 
                     {/* Business Insights */}

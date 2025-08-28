@@ -25,12 +25,23 @@ const TransactionHistoryScreen = () => {
             { id: 'BW-55555', customer: 'Tom H.', time: 'Jan 15, 16:30', amount: '€22.50', discount: '25%', status: 'completed' },
             { id: 'BW-66666', customer: 'Anna K.', time: 'Jan 14, 14:20', amount: '€8.90', discount: '12%', status: 'completed' },
         ],
+        year: [
+            { id: 'BW-77777', customer: 'John D.', time: 'Dec 25, 19:45', amount: '€12.50', discount: '15%', status: 'completed' },
+            { id: 'BW-88888', customer: 'Maria S.', time: 'Dec 24, 18:30', amount: '€7.25', discount: '10%', status: 'completed' },
+            { id: 'BW-99999', customer: 'Alex K.', time: 'Dec 23, 20:15', amount: '€15.75', discount: '20%', status: 'completed' },
+        ],
+        all: [
+            { id: 'BW-11111', customer: 'Sarah M.', time: 'Dec 22, 16:20', amount: '€6.80', discount: '15%', status: 'completed' },
+            { id: 'BW-22222', customer: 'David L.', time: 'Dec 21, 14:10', amount: '€9.25', discount: '12%', status: 'completed' },
+        ],
     };
 
     const periods = [
         { id: 'today', label: 'Today', count: transactionData.today.length },
         { id: 'week', label: 'This Week', count: transactionData.week.length },
         { id: 'month', label: 'This Month', count: transactionData.month.length },
+        { id: 'year', label: 'This Year', count: transactionData.year.length },
+        { id: 'all', label: 'All Time', count: transactionData.all.length },
     ];
 
     const currentTransactions = transactionData[selectedPeriod] || [];
@@ -98,12 +109,6 @@ const TransactionHistoryScreen = () => {
                             />
                             <i className="fas fa-search absolute top-2.5 left-3 text-sm" style={{ color: customColor }}></i>
                         </div>
-                        <button
-                            onClick={handleExport}
-                            className="rounded-xl border border-orange-400/30 bg-gray-900/60 p-2 transition-all hover:scale-105"
-                        >
-                            <i className="fas fa-download text-sm" style={{ color: customColor }}></i>
-                        </button>
                     </div>
 
                     {/* Period Selector */}
@@ -205,19 +210,7 @@ const TransactionHistoryScreen = () => {
                         )}
                     </div>
 
-                    {/* Quick Actions */}
-                    <div className="grid grid-cols-2 gap-3">
-                        <button className="rounded-xl border border-orange-400/30 bg-gray-900/60 px-4 py-3 text-sm font-medium text-gray-200 transition-all hover:scale-105">
-                            <i className="fas fa-chart-bar mr-2"></i>
-                            Analytics
-                        </button>
-                        <button className="rounded-xl border border-orange-400/30 bg-gray-900/60 px-4 py-3 text-sm font-medium text-gray-200 transition-all hover:scale-105">
-                            <i className="fas fa-filter mr-2"></i>
-                            Filters
-                        </button>
-                    </div>
-
-                    {/* Business Insights */}
+                                     {/* Business Insights */}
                     <div className={`${getSurfaceBgClass()} rounded-xl p-4`}>
                         <h4 className={`${getTextClass('primary')} mb-3 flex items-center font-semibold`}>
                             <i className="fas fa-lightbulb mr-2 text-sm" style={{ color: customColor }}></i>

@@ -44,15 +44,13 @@ const ShopOwnerLoginScreen = () => {
                             className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-xl border border-orange-400/30 bg-gray-900/80"
                             style={getShadowStyle('lg', 0.3)}
                         >
-                            <div
-                                className="flex h-12 w-12 items-center justify-center rounded-lg text-lg font-bold text-white"
-                                style={{ backgroundColor: customColor }}
-                            >
-                                <i className="fas fa-store"></i>
-                            </div>
+                                       <img
+                                src="/logobil.png"
+                                alt="Billionways Logo"
+                                className="h-28 w-28 object-contain"
+                            />
                         </div>
 
-                        <h1 className="mb-2 text-xl font-bold text-white">Business Portal</h1>
                         <h2 className="mb-4 text-2xl font-bold" style={{ color: customColor }}>
                             Shop Owner Login
                         </h2>
@@ -162,16 +160,6 @@ const ShopOwnerLoginScreen = () => {
                         </div>
                     </div>
 
-                    {/* Support */}
-                    <div className="text-center">
-                        <p className={`${getTextClass('tertiary')} mb-2 text-xs`}>Need help setting up your store?</p>
-                        <button className="text-sm transition-all hover:underline" style={{ color: customColor }}>
-                            <i className="fas fa-headset mr-1"></i>
-                            Contact Business Support
-                        </button>
-                    </div>
-
-                    {/* Back to Consumer App */}
                     <div className="mt-6 text-center">
                         <button className={`${getTextClass('tertiary')} text-xs hover:${getTextClass('secondary')} transition-all`}>
                             ← Back to Consumer App

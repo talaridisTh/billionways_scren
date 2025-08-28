@@ -11,6 +11,7 @@ import RegistrationScreen from '@/pages/screen/RegistrationScreen';
 import ReviewPromptScreen from '@/pages/screen/ReviewPromptScreen';
 import ShopOwnerDashboardScreen from '@/pages/screen/ShopOwnerDashboardScreen';
 import ShopOwnerLoginScreen from '@/pages/screen/ShopOwnerLoginScreen';
+import ShopOwnerQRScannerScreen from '@/pages/screen/ShopOwnerQRScannerScreen';
 import StoreDetailsScreen from '@/pages/screen/StoreDetailsScreen';
 import StoreManagementScreen from '@/pages/screen/StoreManagementScreen';
 import SubscriptionPackageScreen from '@/pages/screen/SubscriptionPackageScreen';
@@ -186,7 +187,7 @@ const PresentationView = () => {
             component: ShopOwnerLoginScreen,
             description: 'Partner login interface for store management',
             icon: 'fa-store-alt',
-            visible: false,
+            visible: true,
         },
         {
             id: 'shop-owner-dashboard',
@@ -194,7 +195,7 @@ const PresentationView = () => {
             component: ShopOwnerDashboardScreen,
             description: 'Daily scans, weekly discounts, average rating stats',
             icon: 'fa-chart-pie',
-            visible: false,
+            visible: true,
         },
         {
             id: 'store-management',
@@ -202,7 +203,7 @@ const PresentationView = () => {
             component: StoreManagementScreen,
             description: 'Edit photos, basic info, hours and menu PDF',
             icon: 'fa-edit',
-            visible: false,
+            visible: true,
         },
         {
             id: 'transaction-history',
@@ -210,7 +211,15 @@ const PresentationView = () => {
             component: TransactionHistoryScreen,
             description: 'All QR scan transactions with customer ID, date, discount',
             icon: 'fa-history',
-            visible: false,
+            visible: true,
+        },
+        {
+            id: 'shop-owner-qr-scanner',
+            name: 'QR Code Scanner',
+            component: ShopOwnerQRScannerScreen,
+            description: 'Scan customer QR codes to apply discounts',
+            icon: 'fa-qrcode',
+            visible: true,
         },
     ];
 
@@ -557,7 +566,7 @@ const PresentationView = () => {
                             </button>
                             <button className="nav-item text-gray-400 hover:text-gray-300">
                                 <i className="nav-icon fas fa-file-alt"></i>
-                                <span className="nav-label">My Bills</span>
+                                <span className="nav-label"> Bills</span>
                             </button>
                             <button className="nav-item">
                                 <div className="nav-add-button">
