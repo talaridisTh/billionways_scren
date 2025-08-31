@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useStyleHelpers } from '../hooks';
 
 const StoreManagementScreen = () => {
@@ -9,9 +9,15 @@ const StoreManagementScreen = () => {
         phone: '+30 210 123 4567',
         email: 'info@tavernamykonos.gr',
         hours: {
-            weekdays: '12:00 - 00:00',
-            weekend: '11:00 - 01:00',
+            monday: '12:00 - 00:00',
+            tuesday: '12:00 - 00:00',
+            wednesday: '12:00 - 00:00',
+            thursday: '12:00 - 00:00',
+            friday: '12:00 - 00:00',
+            saturday: '11:00 - 01:00',
+            sunday: '11:00 - 01:00',
         },
+        discount: 15,
         description: 'Traditional Greek taverna serving authentic Mediterranean cuisine in the heart of Athens.',
     });
 
@@ -95,6 +101,34 @@ const StoreManagementScreen = () => {
                     {/* Store Info Tab */}
                     {activeTab === 'info' && (
                         <div className="space-y-4 pb-6">
+                            {/* Discount Setting */}
+                            <div className={`${getCardBgClass()} rounded-xl p-4`} style={getShadowStyle('lg', 0.1)}>
+                                <h3 className={`${getTextClass('primary')} mb-4 font-semibold`}>Discount Setting</h3>
+                                
+                                <div>
+                                    <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Set your discount percentage (minimum 10%)</label>
+                                    <div className="flex items-center">
+                                        <input
+                                            type="number"
+                                            min="10"
+                                            max="90"
+                                            value={storeInfo.discount}
+                                            onChange={(e) => {
+                                                const value = parseInt(e.target.value);
+                                                const validValue = isNaN(value) ? 10 : Math.max(10, Math.min(90, value));
+                                                setStoreInfo({ ...storeInfo, discount: validValue });
+                                            }}
+                                            className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
+                                        />
+                                        <span className={`${getTextClass('primary')} ml-2 text-lg font-bold`}>%</span>
+                                    </div>
+                                    <p className={`${getTextClass('tertiary')} mt-2 text-xs`}>
+                                        <i className="fas fa-info-circle mr-1" style={{ color: customColor }}></i>
+                                        This discount will be applied to all customer transactions
+                                    </p>
+                                </div>
+                            </div>
+                            
                             <div className={`${getCardBgClass()} rounded-xl p-4`} style={getShadowStyle('lg', 0.1)}>
                                 <h3 className={`${getTextClass('primary')} mb-4 font-semibold`}>Basic Information</h3>
 
@@ -156,28 +190,92 @@ const StoreManagementScreen = () => {
                                 <h3 className={`${getTextClass('primary')} mb-4 font-semibold`}>Operating Hours</h3>
 
                                 <div className="space-y-3">
+                                    {/* Monday */}
                                     <div>
-                                        <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Weekdays (Mon-Fri)</label>
+                                        <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Monday</label>
                                         <input
                                             type="text"
-                                            value={storeInfo.hours.weekdays}
-                                            onChange={(e) => setStoreInfo({ ...storeInfo, hours: { ...storeInfo.hours, weekdays: e.target.value } })}
+                                            value={storeInfo.hours.monday}
+                                            onChange={(e) => setStoreInfo({ ...storeInfo, hours: { ...storeInfo.hours, monday: e.target.value } })}
                                             placeholder="12:00 - 00:00"
                                             className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
                                         />
                                     </div>
+                                    
+                                    {/* Tuesday */}
                                     <div>
-                                        <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Weekend (Sat-Sun)</label>
+                                        <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Tuesday</label>
                                         <input
                                             type="text"
-                                            value={storeInfo.hours.weekend}
-                                            onChange={(e) => setStoreInfo({ ...storeInfo, hours: { ...storeInfo.hours, weekend: e.target.value } })}
+                                            value={storeInfo.hours.tuesday}
+                                            onChange={(e) => setStoreInfo({ ...storeInfo, hours: { ...storeInfo.hours, tuesday: e.target.value } })}
+                                            placeholder="12:00 - 00:00"
+                                            className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
+                                        />
+                                    </div>
+                                    
+                                    {/* Wednesday */}
+                                    <div>
+                                        <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Wednesday</label>
+                                        <input
+                                            type="text"
+                                            value={storeInfo.hours.wednesday}
+                                            onChange={(e) => setStoreInfo({ ...storeInfo, hours: { ...storeInfo.hours, wednesday: e.target.value } })}
+                                            placeholder="12:00 - 00:00"
+                                            className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
+                                        />
+                                    </div>
+                                    
+                                    {/* Thursday */}
+                                    <div>
+                                        <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Thursday</label>
+                                        <input
+                                            type="text"
+                                            value={storeInfo.hours.thursday}
+                                            onChange={(e) => setStoreInfo({ ...storeInfo, hours: { ...storeInfo.hours, thursday: e.target.value } })}
+                                            placeholder="12:00 - 00:00"
+                                            className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
+                                        />
+                                    </div>
+                                    
+                                    {/* Friday */}
+                                    <div>
+                                        <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Friday</label>
+                                        <input
+                                            type="text"
+                                            value={storeInfo.hours.friday}
+                                            onChange={(e) => setStoreInfo({ ...storeInfo, hours: { ...storeInfo.hours, friday: e.target.value } })}
+                                            placeholder="12:00 - 00:00"
+                                            className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
+                                        />
+                                    </div>
+                                    
+                                    {/* Saturday */}
+                                    <div>
+                                        <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Saturday</label>
+                                        <input
+                                            type="text"
+                                            value={storeInfo.hours.saturday}
+                                            onChange={(e) => setStoreInfo({ ...storeInfo, hours: { ...storeInfo.hours, saturday: e.target.value } })}
+                                            placeholder="11:00 - 01:00"
+                                            className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
+                                        />
+                                    </div>
+                                    
+                                    {/* Sunday */}
+                                    <div>
+                                        <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Sunday</label>
+                                        <input
+                                            type="text"
+                                            value={storeInfo.hours.sunday}
+                                            onChange={(e) => setStoreInfo({ ...storeInfo, hours: { ...storeInfo.hours, sunday: e.target.value } })}
                                             placeholder="11:00 - 01:00"
                                             className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
                                         />
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     )}
 

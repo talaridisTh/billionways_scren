@@ -13,11 +13,15 @@ const RegistrationScreen: React.FC<RegistrationScreenProps> = ({ onNext, onBack 
     const [inputValue, setInputValue] = useState('');
     const [showVerificationInput, setShowVerificationInput] = useState(false);
     const [verificationCode, setVerificationCode] = useState('');
+    const [referralCode, setReferralCode] = useState('');
 
     const handleContinue = () => {
         if (inputValue.trim()) {
             if (showVerificationInput && verificationCode.trim()) {
                 onNext();
+                if (referralCode.trim()) {
+                    console.log(`User registered with referral code: ${referralCode}`);
+                }
             } else if (!showVerificationInput) {
                 setShowVerificationInput(true);
                 // Here you would typically trigger an API call to send the verification code
@@ -119,6 +123,25 @@ const RegistrationScreen: React.FC<RegistrationScreenProps> = ({ onNext, onBack 
                                     </p>
                                 </div>
                             )}
+
+                            <div className="mt-4">
+                                <label className={`${getTextClass('secondary')} mb-2 block text-sm font-medium`}>
+                                    Referral Code (Optional)
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        value={referralCode}
+                                        onChange={(e) => setReferralCode(e.target.value)}
+                                        placeholder="Enter referral code if you have one"
+                                        className={`${getSurfaceBgClass()} w-full rounded-lg px-3 py-3 text-white placeholder-gray-400 outline-none focus:ring-2 ${getTextClass('primary')}`}
+                                        style={{ '--tw-ring-color': customColor } as React.CSSProperties}
+                                    />
+                                    <div className="absolute top-3 right-3">
+                                        <i className="fas fa-user-plus text-sm" style={{ color: customColor }}></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div className={`${getCardBgClass()} mb-4 rounded-lg p-3`}>

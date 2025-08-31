@@ -18,7 +18,7 @@ const SubscriptionPackageScreen: React.FC<SubscriptionPackageScreenProps> = ({ o
             name: 'Monthly',
             price: '19.70 €',
             originalPrice: '19.70 €',
-            features: ['Monthly billing', 'Cancel anytime', 'Basic discounts 10%', 'Global usage', 'Customer support'],
+            features: ['Monthly billing', 'Cancel anytime', 'Basic discounts 10%'],
             popular: false,
         },
         {
@@ -28,10 +28,8 @@ const SubscriptionPackageScreen: React.FC<SubscriptionPackageScreenProps> = ({ o
             originalPrice: '118.20 €',
             features: [
                 'Save 9% compared to monthly',
-                'All features from Monthly plan',
+                'Basic discounts 10%',
                 'BONUS: Access to discounts up to 15%*',
-                'Priority customer support',
-                'Exclusive partner deals',
             ],
             popular: true,
         },
@@ -42,10 +40,8 @@ const SubscriptionPackageScreen: React.FC<SubscriptionPackageScreenProps> = ({ o
             originalPrice: '236.40 €',
             features: [
                 'Best value - save 28% compared to monthly',
-                'All features from 6-Month plan',
+                'Basic discounts 10%',
                 'BONUS: Access to all available discounts*',
-                'Premium customer support',
-                'VIP exclusive partner deals',
             ],
             popular: false,
         },

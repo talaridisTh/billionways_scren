@@ -10,29 +10,29 @@ const TransactionHistoryScreen = () => {
 
     const transactionData = {
         today: [
-            { id: 'BW-12345', customer: 'John D.', time: '14:23', amount: '€8.50', discount: '15%', status: 'completed' },
-            { id: 'BW-67890', customer: 'Maria S.', time: '14:15', amount: '€5.25', discount: '10%', status: 'completed' },
-            { id: 'BW-54321', customer: 'Alex K.', time: '14:08', amount: '€12.75', discount: '20%', status: 'completed' },
-            { id: 'BW-98765', customer: 'Sarah M.', time: '13:45', amount: '€6.80', discount: '15%', status: 'completed' },
-            { id: 'BW-11111', customer: 'David L.', time: '13:30', amount: '€9.25', discount: '12%', status: 'completed' },
+            { id: 'BW-12345', customer: 'John D.', time: '14:23', amount: '€85.00', discount: '15%', status: 'completed' },
+            { id: 'BW-67890', customer: 'Maria S.', time: '14:15', amount: '€52.50', discount: '10%', status: 'completed' },
+            { id: 'BW-54321', customer: 'Alex K.', time: '14:08', amount: '€127.50', discount: '20%', status: 'completed' },
+            { id: 'BW-98765', customer: 'Sarah M.', time: '13:45', amount: '€68.00', discount: '15%', status: 'completed' },
+            { id: 'BW-11111', customer: 'David L.', time: '13:30', amount: '€92.50', discount: '12%', status: 'completed' },
         ],
         week: [
-            { id: 'BW-22222', customer: 'Emma W.', time: 'Yesterday 19:20', amount: '€15.40', discount: '18%', status: 'completed' },
-            { id: 'BW-33333', customer: 'Mike R.', time: 'Yesterday 18:15', amount: '€7.60', discount: '10%', status: 'completed' },
-            { id: 'BW-44444', customer: 'Lisa P.', time: '2 days ago 20:10', amount: '€11.30', discount: '15%', status: 'completed' },
+            { id: 'BW-22222', customer: 'Emma W.', time: 'Yesterday 19:20', amount: '€154.00', discount: '18%', status: 'completed' },
+            { id: 'BW-33333', customer: 'Mike R.', time: 'Yesterday 18:15', amount: '€76.00', discount: '10%', status: 'completed' },
+            { id: 'BW-44444', customer: 'Lisa P.', time: '2 days ago 20:10', amount: '€113.00', discount: '15%', status: 'completed' },
         ],
         month: [
-            { id: 'BW-55555', customer: 'Tom H.', time: 'Jan 15, 16:30', amount: '€22.50', discount: '25%', status: 'completed' },
-            { id: 'BW-66666', customer: 'Anna K.', time: 'Jan 14, 14:20', amount: '€8.90', discount: '12%', status: 'completed' },
+            { id: 'BW-55555', customer: 'Tom H.', time: 'Jan 15, 16:30', amount: '€225.00', discount: '25%', status: 'completed' },
+            { id: 'BW-66666', customer: 'Anna K.', time: 'Jan 14, 14:20', amount: '€189.00', discount: '12%', status: 'completed' },
         ],
         year: [
-            { id: 'BW-77777', customer: 'John D.', time: 'Dec 25, 19:45', amount: '€12.50', discount: '15%', status: 'completed' },
-            { id: 'BW-88888', customer: 'Maria S.', time: 'Dec 24, 18:30', amount: '€7.25', discount: '10%', status: 'completed' },
-            { id: 'BW-99999', customer: 'Alex K.', time: 'Dec 23, 20:15', amount: '€15.75', discount: '20%', status: 'completed' },
+            { id: 'BW-77777', customer: 'John D.', time: 'Dec 25, 19:45', amount: '€325.00', discount: '15%', status: 'completed' },
+            { id: 'BW-88888', customer: 'Maria S.', time: 'Dec 24, 18:30', amount: '€275.00', discount: '10%', status: 'completed' },
+            { id: 'BW-99999', customer: 'Alex K.', time: 'Dec 23, 20:15', amount: '€415.00', discount: '20%', status: 'completed' },
         ],
         all: [
-            { id: 'BW-11111', customer: 'Sarah M.', time: 'Dec 22, 16:20', amount: '€6.80', discount: '15%', status: 'completed' },
-            { id: 'BW-22222', customer: 'David L.', time: 'Dec 21, 14:10', amount: '€9.25', discount: '12%', status: 'completed' },
+            { id: 'BW-11111', customer: 'Sarah M.', time: 'Dec 22, 16:20', amount: '€680.00', discount: '15%', status: 'completed' },
+            { id: 'BW-22222', customer: 'David L.', time: 'Dec 21, 14:10', amount: '€925.00', discount: '12%', status: 'completed' },
         ],
     };
 
@@ -140,7 +140,7 @@ const TransactionHistoryScreen = () => {
                                 </p>
                             </div>
                             <div>
-                                <p className={`${getTextClass('tertiary')} mb-1 text-xs`}>Total Discounts Given</p>
+                                <p className={`${getTextClass('tertiary')} mb-1 text-xs`}>Total Transaction Amount</p>
                                 <p className="text-xl font-bold" style={{ color: customColor }}>
                                     €{getTotalAmount().toFixed(2)}
                                 </p>
@@ -182,7 +182,7 @@ const TransactionHistoryScreen = () => {
                                                         className="rounded px-2 py-0.5 text-xs"
                                                         style={{ backgroundColor: `${customColor}20`, color: customColor }}
                                                     >
-                                                        {transaction.discount} discount
+                                                        {transaction.discount} off
                                                     </span>
                                                 </div>
                                             </div>
@@ -222,8 +222,8 @@ const TransactionHistoryScreen = () => {
                                 <span className={`${getTextClass('secondary')} text-xs`}>Peak transaction time: 13:30 - 14:30</span>
                             </div>
                             <div className="flex items-start">
-                                <i className="fas fa-star mt-1 mr-2 text-xs text-yellow-400"></i>
-                                <span className={`${getTextClass('secondary')} text-xs`}>Average discount given: 14.5%</span>
+                                <i className="fas fa-euro-sign mt-1 mr-2 text-xs text-yellow-400"></i>
+                                <span className={`${getTextClass('secondary')} text-xs`}>Average transaction: €245.50</span>
                             </div>
                             <div className="flex items-start">
                                 <i className="fas fa-users mt-1 mr-2 text-xs text-blue-400"></i>
