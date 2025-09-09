@@ -1,4 +1,5 @@
 import BillsScreen from '@/pages/screen/BillsScreen';
+import BusinessVerificationScreen from '@/pages/screen/BusinessVerificationScreen';
 import CalculationSaveScreen from '@/pages/screen/CalculationSaveScreen';
 import InvestmentScreen from '@/pages/screen/InvestmentScreen';
 import LocationDetectionScreen from '@/pages/screen/LocationDetectionScreen';
@@ -187,6 +188,14 @@ const PresentationView = () => {
             component: ShopOwnerLoginScreen,
             description: 'Partner login interface for store management',
             icon: 'fa-store-alt',
+            visible: true,
+        },
+        {
+            id: 'business-verification',
+            name: 'Business Verification',
+            component: BusinessVerificationScreen,
+            description: 'Upload business documents for verification (VAT, company name)',
+            icon: 'fa-shield-alt',
             visible: true,
         },
         {
