@@ -5,6 +5,8 @@ const StoreManagementScreen = () => {
     const [activeTab, setActiveTab] = useState('info');
     const [storeInfo, setStoreInfo] = useState({
         name: 'Taverna Mykonos',
+        legalName: 'Mykonos Restaurant S.A.',
+        vatNumber: 'EL123456789',
         address: '123 Main Street, Athens',
         phone: '+30 210 123 4567',
         email: 'info@tavernamykonos.gr',
@@ -20,6 +22,8 @@ const StoreManagementScreen = () => {
         discount: 15,
         description: 'Traditional Greek taverna serving authentic Mediterranean cuisine in the heart of Athens.',
     });
+
+    const [businessCertificate, setBusinessCertificate] = useState<File | null>(null);
 
     const [uploadedImages, setUploadedImages] = useState([
         'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop',
@@ -104,7 +108,7 @@ const StoreManagementScreen = () => {
                             {/* Discount Setting */}
                             <div className={`${getCardBgClass()} rounded-xl p-4`} style={getShadowStyle('lg', 0.1)}>
                                 <h3 className={`${getTextClass('primary')} mb-4 font-semibold`}>Discount Setting</h3>
-                                
+
                                 <div>
                                     <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Set your discount percentage (minimum 10%)</label>
                                     <div className="flex items-center">
@@ -128,7 +132,89 @@ const StoreManagementScreen = () => {
                                     </p>
                                 </div>
                             </div>
-                            
+
+                            <div className={`${getCardBgClass()} rounded-xl p-4`} style={getShadowStyle('lg', 0.1)}>
+                                <h3 className={`${getTextClass('primary')} mb-4 font-semibold`}>Legal Business Information</h3>
+
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Legal Business Name</label>
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                value={storeInfo.legalName}
+                                                onChange={(e) => setStoreInfo({ ...storeInfo, legalName: e.target.value })}
+                                                placeholder="Official registered business name"
+                                                className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-4 py-3 ${getTextClass('primary')}  placeholder-gray-400 focus:border-orange-400 focus:outline-none`}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="">
+                                        <div>
+                                            <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>VAT Number</label>
+                                            <div className="relative">
+                                                <input
+                                                    type="text"
+                                                    value={storeInfo.vatNumber}
+                                                    onChange={(e) => setStoreInfo({ ...storeInfo, vatNumber: e.target.value })}
+                                                    placeholder="EL123456789"
+                                                    className={`w-full rounded-xl border border-gray-600 bg-gray-700 pl-3 py-3 ${getTextClass('primary')} placeholder-gray-400 focus:border-orange-400 focus:outline-none`}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Business Certificate Document</label>
+                                        {businessCertificate ? (
+                                            <div className={`${getCardBgClass()} rounded-xl border border-gray-600 p-3`}>
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center">
+                                                        <i className="fas fa-file-alt mr-2" style={{ color: customColor }}></i>
+                                                        <div>
+                                                            <p className={`${getTextClass('primary')} text-sm font-medium`}>{businessCertificate.name}</p>
+                                                            <p className={`${getTextClass('tertiary')} text-xs`}>
+                                                                {(businessCertificate.size / 1024 / 1024).toFixed(2)} MB
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => setBusinessCertificate(null)}
+                                                        className={`${getTextClass('tertiary')} hover:${getTextClass('primary')} transition-colors`}
+                                                    >
+                                                        <i className="fas fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div
+                                                className="relative rounded-xl border-2 border-dashed border-gray-600 bg-gray-700/50 p-4 text-center transition-all hover:border-orange-400"
+                                            >
+                                                <input
+                                                    type="file"
+                                                    accept=".pdf,.jpg,.jpeg,.png"
+                                                    onChange={(e) => {
+                                                        const file = e.target.files?.[0];
+                                                        if (file && file.size <= 5 * 1024 * 1024) {
+                                                            setBusinessCertificate(file);
+                                                        }
+                                                    }}
+                                                    className="absolute inset-0 cursor-pointer opacity-0"
+                                                />
+                                                <i className="fas fa-cloud-upload-alt mb-2 text-xl" style={{ color: customColor }}></i>
+                                                <p className={`${getTextClass('primary')} mb-1 text-sm font-medium`}>
+                                                    Upload Certificate
+                                                </p>
+                                                <p className={`${getTextClass('tertiary')} text-xs`}>
+                                                    PDF, JPG, PNG up to 5MB
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className={`${getCardBgClass()} rounded-xl p-4`} style={getShadowStyle('lg', 0.1)}>
                                 <h3 className={`${getTextClass('primary')} mb-4 font-semibold`}>Basic Information</h3>
 
@@ -201,7 +287,7 @@ const StoreManagementScreen = () => {
                                             className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
                                         />
                                     </div>
-                                    
+
                                     {/* Tuesday */}
                                     <div>
                                         <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Tuesday</label>
@@ -213,7 +299,7 @@ const StoreManagementScreen = () => {
                                             className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
                                         />
                                     </div>
-                                    
+
                                     {/* Wednesday */}
                                     <div>
                                         <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Wednesday</label>
@@ -225,7 +311,7 @@ const StoreManagementScreen = () => {
                                             className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
                                         />
                                     </div>
-                                    
+
                                     {/* Thursday */}
                                     <div>
                                         <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Thursday</label>
@@ -237,7 +323,7 @@ const StoreManagementScreen = () => {
                                             className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
                                         />
                                     </div>
-                                    
+
                                     {/* Friday */}
                                     <div>
                                         <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Friday</label>
@@ -249,7 +335,7 @@ const StoreManagementScreen = () => {
                                             className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
                                         />
                                     </div>
-                                    
+
                                     {/* Saturday */}
                                     <div>
                                         <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Saturday</label>
@@ -261,7 +347,7 @@ const StoreManagementScreen = () => {
                                             className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-3 py-3 ${getTextClass('primary')} focus:border-orange-400 focus:outline-none`}
                                         />
                                     </div>
-                                    
+
                                     {/* Sunday */}
                                     <div>
                                         <label className={`${getTextClass('secondary')} mb-2 block text-sm`}>Sunday</label>
@@ -275,7 +361,7 @@ const StoreManagementScreen = () => {
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     )}
 
