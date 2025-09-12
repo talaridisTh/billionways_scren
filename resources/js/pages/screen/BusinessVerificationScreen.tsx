@@ -8,7 +8,9 @@ const BusinessVerificationScreen = () => {
     const [dragOver, setDragOver] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
-    const [verificationStatus, setVerificationStatus] = useState<'pending' | 'uploading' | 'success' | 'error'>('pending');
+    const [verificationStatus, setVerificationStatus] = useState<'pending' | 'uploading' | 'awaiting_code' | 'success' | 'error'>('pending');
+    const [verificationCode, setVerificationCode] = useState('');
+    const [verificationMethod, setVerificationMethod] = useState<'email' | 'phone'>('email');
 
     const styleHelpers = useStyleHelpers();
     const { getBackgroundClass, getCardBgClass, getSurfaceBgClass, getTextClass, customColor, getShadowStyle } = styleHelpers;
@@ -40,7 +42,7 @@ const BusinessVerificationScreen = () => {
                 return;
             }
 
-            const isValidType = Object.keys(acceptedFileTypes).some(type => 
+            const isValidType = Object.keys(acceptedFileTypes).some(type =>
                 file.type === type || acceptedFileTypes[type].some(ext => file.name.toLowerCase().endsWith(ext))
             );
 
@@ -93,12 +95,20 @@ const BusinessVerificationScreen = () => {
                 if (prev >= 100) {
                     clearInterval(interval);
                     setIsUploading(false);
-                    setVerificationStatus('success');
+                    setVerificationStatus('awaiting_code');
                     return 100;
                 }
                 return prev + 10;
             });
         }, 200);
+    };
+
+    const handleVerificationSubmit = () => {
+        if (!verificationCode.trim()) {
+            return;
+        }
+
+        setVerificationStatus('success');
     };
 
     const handleBack = () => {
@@ -126,6 +136,104 @@ const BusinessVerificationScreen = () => {
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     };
+
+    if (verificationStatus === 'awaiting_code') {
+        return (
+            <div className={`${getBackgroundClass()} min-h-screen font-sans ${getTextClass('primary')} relative`}>
+                {renderBackgroundEffects()}
+                <div className="relative mx-auto min-h-screen max-w-sm shadow-lg">
+                    <div className="flex min-h-screen flex-col justify-center p-6">
+                        <div className="mb-4">
+                            <button
+                                onClick={() => setVerificationStatus('pending')}
+                                className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-900/60 transition-all hover:scale-105"
+                            >
+                                <i className="fas fa-arrow-left text-gray-200"></i>
+                            </button>
+                        </div>
+
+                        <div className="text-center">
+
+                            <h2 className="mb-4 text-2xl font-bold" style={{ color: customColor }}>
+                                Verification Code Sent
+                            </h2>
+                            <p className="mb-6 text-sm leading-relaxed text-gray-200">
+                                We've sent a verification code to your {verificationMethod === 'email' ? 'email address' : 'phone number'} to confirm your identity before processing your business verification.
+                            </p>
+
+                            <div className={`${getSurfaceBgClass()} mb-4 rounded-xl p-1`}>
+                                <div className="flex">
+                                    <button
+                                        onClick={() => setVerificationMethod('email')}
+                                        className={`flex-1 rounded-lg px-4 py-3 text-sm font-medium transition-all ${
+                                            verificationMethod === 'email' ? 'text-white' : 'text-gray-400 hover:text-gray-200'
+                                        }`}
+                                        style={verificationMethod === 'email' ? { backgroundColor: customColor, ...getShadowStyle('md', 0.3) } : {}}
+                                    >
+                                        <i className="fas fa-envelope mr-2"></i>
+                                        Email
+                                    </button>
+                                    <button
+                                        onClick={() => setVerificationMethod('phone')}
+                                        className={`flex-1 rounded-lg px-4 py-3 text-sm font-medium transition-all ${
+                                            verificationMethod === 'phone' ? 'text-white' : 'text-gray-400 hover:text-gray-200'
+                                        }`}
+                                        style={verificationMethod === 'phone' ? { backgroundColor: customColor, ...getShadowStyle('md', 0.3) } : {}}
+                                    >
+                                        <i className="fas fa-mobile-alt mr-2"></i>
+                                        SMS
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="mb-6">
+                                <label className={`${getTextClass('secondary')} mb-2 block text-left text-sm font-medium`}>
+                                    Enter Verification Code
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        value={verificationCode}
+                                        onChange={(e) => setVerificationCode(e.target.value)}
+                                        placeholder="Enter 6-digit code"
+                                        maxLength={6}
+                                        className={`w-full rounded-xl border border-gray-600 bg-gray-700 px-4 py-3 ${getTextClass('primary')} pl-12 text-center text-lg font-mono tracking-widest placeholder-gray-400 focus:border-orange-400 focus:outline-none`}
+                                    />
+                                    <i className="fas fa-key absolute top-3.5 left-4 text-sm" style={{ color: customColor }}></i>
+                                </div>
+                                <p className={`${getTextClass('tertiary')} mt-2 text-xs text-left`}>
+                                    Check your {verificationMethod === 'email' ? 'email inbox' : 'SMS messages'} for the 6-digit verification code
+                                </p>
+                            </div>
+
+                            <button
+                                onClick={handleVerificationSubmit}
+                                disabled={!verificationCode.trim() || verificationCode.length !== 6}
+                                className={`w-full rounded-xl px-4 py-3 text-base font-semibold text-white transition-all mb-4 ${
+                                    verificationCode.trim() && verificationCode.length === 6 ? 'hover:scale-105' : 'opacity-50'
+                                }`}
+                                style={{
+                                    backgroundColor: customColor,
+                                    ...getShadowStyle('lg', 0.4),
+                                }}
+                            >
+                                <i className="fas fa-check mr-2"></i>
+                                Verify Code
+                            </button>
+
+                            <button
+                                onClick={() => console.log('Resend verification code')}
+                                className={`w-full rounded-xl border border-gray-600 px-4 py-3 text-base font-semibold ${getTextClass('secondary')} transition-all hover:scale-105`}
+                            >
+                                <i className="fas fa-redo mr-2"></i>
+                                Resend Code
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     if (verificationStatus === 'success') {
         return (
@@ -247,11 +355,11 @@ const BusinessVerificationScreen = () => {
                                     Business Documents
                                     <span className={`${getTextClass('tertiary')} ml-1 text-xs`}>(Max 3 files, 5MB each)</span>
                                 </label>
-                                
+
                                 <div
                                     className={`relative rounded-xl border-2 border-dashed transition-all ${
-                                        dragOver 
-                                            ? 'border-orange-400 bg-orange-400/10' 
+                                        dragOver
+                                            ? 'border-orange-400 bg-orange-400/10'
                                             : 'border-gray-600 bg-gray-700/50'
                                     } p-6 text-center`}
                                     onDragOver={handleDragOver}
@@ -323,8 +431,8 @@ const BusinessVerificationScreen = () => {
                                 onClick={handleSubmit}
                                 disabled={!businessName.trim() || !vatNumber.trim() || selectedFiles.length === 0 || isUploading}
                                 className={`w-full rounded-xl px-4 py-3 text-base font-semibold text-white transition-all ${
-                                    businessName.trim() && vatNumber.trim() && selectedFiles.length > 0 && !isUploading 
-                                        ? 'hover:scale-105' 
+                                    businessName.trim() && vatNumber.trim() && selectedFiles.length > 0 && !isUploading
+                                        ? 'hover:scale-105'
                                         : 'opacity-50'
                                 }`}
                                 style={{
