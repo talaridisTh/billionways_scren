@@ -8,13 +8,14 @@ use App\Http\Controllers\Controller;
 use App\Models\AppSignup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class AppSignupController extends Controller
 {
     public function store(Request $request)
     {
-        ray($request->all());
+        Log::info($request->all());
         $data = $request->validate([
             'identifier' => ['required', 'string', 'max:255'],
             'method' => ['required', 'string', 'in:email,phone'],
