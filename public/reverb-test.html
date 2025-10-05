@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverb Connection Test</title>
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .status.disconnected {
+            background: #fee;
+            color: #c33;
+            border-left: 4px solid #c33;
+        }
+        .status.connecting {
+            background: #ffeaa7;
+            color: #d63031;
+            border-left: 4px solid #fdcb6e;
+        }
+        .status.connected {
+            background: #dfe;
+            color: #2d3;
+            border-left: 4px solid #2d3;
+        }
+        .events {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .event {
+            background: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #3498db;
+            border-radius: 3px;
+        }
+        .event-time {
+            color: #7f8c8d;
+            font-size: 0.85em;
+        }
+        .event-data {
+            background: #ecf0f1;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.9em;
+            white-space: pre-wrap;
+        }
+        .config {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+        .config-label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .config-value {
+            font-family: monospace;
+            color: #e74c3c;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+        .clear-btn {
+            background: #e74c3c;
+        }
+        .clear-btn:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Laravel Reverb Connection Test</h1>
+        <p>Test your Reverb WebSocket connection and listen for real-time events.</p>
+
+        <div class="config">
+            <h3>Configuration</h3>
+            <div class="config-item">
+                <span class="config-label">Host:</span>
+                <span class="config-value" id="config-host">reverb.herd.test</span>
+            </div>
+            <div class="config-item">
+                <span class="config-label">Port:</span>
+                <span class="config-value" id="config-port">443</span>
+            </div>
+            <div class="config-item">
+                <span class="config-label">App Key:</span>
+                <span class="config-value" id="config-key">laravel-herd</span>
+            </div>
+            <div class="config-item">
+                <span class="config-label">Scheme:</span>
+                <span class="config-value" id="config-scheme">https</span>
+            </div>
+        </div>
+
+        <div class="status disconnected" id="status">
+            ⚫ Disconnected
+        </div>
+
+        <div>
+            <button onclick="connectReverb()" id="connectBtn">Connect to Reverb</button>
+            <button onclick="triggerTestEvent()" id="triggerBtn" disabled>Trigger Test Event (User 1)</button>
+            <button onclick="clearEvents()" class="clear-btn">Clear Events</button>
+        </div>
+
+        <h3>Received Events</h3>
+        <div class="events" id="events">
+            <p style="color: #7f8c8d;">No events yet. Connect and trigger a test event.</p>
+        </div>
+    </div>
+
+    <script>
+        let pusher = null;
+        let channel = null;
+
+        function updateStatus(status, message) {
+            const statusEl = document.getElementById('status');
+            statusEl.className = `status ${status}`;
+            statusEl.innerHTML = message;
+        }
+
+        function addEvent(eventName, data) {
+            const eventsEl = document.getElementById('events');
+            const now = new Date().toLocaleTimeString();
+            
+            const eventEl = document.createElement('div');
+            eventEl.className = 'event';
+            eventEl.innerHTML = `
+                <strong>${eventName}</strong>
+                <span class="event-time">${now}</span>
+                <div class="event-data">${JSON.stringify(data, null, 2)}</div>
+            `;
+            
+            if (eventsEl.querySelector('p')) {
+                eventsEl.innerHTML = '';
+            }
+            
+            eventsEl.insertBefore(eventEl, eventsEl.firstChild);
+        }
+
+        function clearEvents() {
+            document.getElementById('events').innerHTML = '<p style="color: #7f8c8d;">No events yet. Connect and trigger a test event.</p>';
+        }
+
+        function connectReverb() {
+            updateStatus('connecting', '🟡 Connecting...');
+            
+            pusher = new Pusher('laravel-herd', {
+                wsHost: 'reverb.herd.test',
+                wsPort: 443,
+                wssPort: 443,
+                forceTLS: true,
+                enabledTransports: ['ws', 'wss'],
+                cluster: '',
+                disableStats: true,
+            });
+
+            pusher.connection.bind('connected', function() {
+                updateStatus('connected', '🟢 Connected to Reverb!');
+                document.getElementById('connectBtn').disabled = true;
+                document.getElementById('triggerBtn').disabled = false;
+                addEvent('connection:connected', { message: 'Successfully connected to Reverb' });
+                
+                channel = pusher.subscribe('private-user.1');
+                
+                channel.bind('pusher:subscription_succeeded', function() {
+                    addEvent('subscription:succeeded', { channel: 'private-user.1' });
+                });
+                
+                channel.bind('pusher:subscription_error', function(status) {
+                    addEvent('subscription:error', { status, message: 'Subscription failed - this is expected for private channels without auth' });
+                });
+                
+                channel.bind('transaction.approved', function(data) {
+                    addEvent('transaction.approved', data);
+                });
+                
+                channel.bind('transaction.rejected', function(data) {
+                    addEvent('transaction.rejected', data);
+                });
+            });
+
+            pusher.connection.bind('error', function(err) {
+                updateStatus('disconnected', '⚫ Connection Error');
+                addEvent('connection:error', err);
+            });
+
+            pusher.connection.bind('disconnected', function() {
+                updateStatus('disconnected', '⚫ Disconnected');
+                document.getElementById('connectBtn').disabled = false;
+                document.getElementById('triggerBtn').disabled = true;
+            });
+        }
+
+        function triggerTestEvent() {
+            addEvent('system', { message: 'Triggering test event via command...' });
+            addEvent('info', { 
+                message: 'Run this command in your terminal:',
+                command: 'php artisan reverb:test --user-id=1'
+            });
+        }
+
+        window.addEventListener('beforeunload', function() {
+            if (pusher) {
+                pusher.disconnect();
+            }
+        });
+    </script>
+</body>
+</html>
