@@ -8,11 +8,11 @@ use App\Models\ScanSession;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TransactionRejected implements ShouldBroadcast
+class TransactionRejected implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -22,7 +22,7 @@ class TransactionRejected implements ShouldBroadcast
 
     public function broadcastOn(): Channel
     {
-        return new PrivateChannel('user.' . $this->session->user_id);
+        return new PrivateChannel('user.'.$this->session->user_id);
     }
 
     public function broadcastAs(): string
